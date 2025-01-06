@@ -1,0 +1,29 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	import Model from '$lib/components/GPTs/Models.svelte';
+	onMount(async () => {
+		
+		try {
+		  // 获取工作区模型列表
+		  // 更新 store 中的模型数据
+				  // 先跳转到 /Masks/models 页面
+		  goto('/GPTs/models');
+		  
+		  // 使用 setTimeout 延迟跳转到目标路由
+			  goto(`/g/?models=${encodeURIComponent($page.params.model)}`);
+		  // goto(`/g/?models=${encodeURIComponent($page.params.model)}`);
+  
+  
+		} catch (error) {
+		  console.error('Error fetching models:', error);
+		}
+	  
+	  
+	  });
+</script>
+
+<Model />
+<!-- <Chat chatIdProp={$page.params.model}/> -->
