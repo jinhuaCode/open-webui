@@ -1,0 +1,62 @@
+[
+	{
+		"code": "en-US",
+		"title": "English (US)"
+	},
+	{
+		"code": "zh-CN",
+		"title": "Chinese (简体中文)"
+	},
+	{
+		"code": "zh-TW",
+		"title": "Chinese (繁體中文)"
+	},
+	{
+		"code": "en-GB",
+		"title": "English (GB)"
+	},
+	
+	{
+		"code": "da-DK",
+		"title": "Danish (Denmark)"
+	},
+	{
+		"code": "de-DE",
+		"title": "German (Deutsch)"
+	},
+	{
+		"code": "es-ES",
+		"title": "Spanish (Español)"
+	},
+	
+	{
+		"code": "fr-CA",
+		"title": "French (Canada)"
+	},
+	{
+		"code": "fr-FR",
+		"title": "French (France)"
+	},
+	
+	{
+		"code": "it-IT",
+		"title": "Italian (Italiano)"
+	},
+	{
+		"code": "ja-JP",
+		"title": "Japanese (日本語)"
+	},
+	{
+		"code": "ka-GE",
+		"title": "Georgian (ქართული)"
+	},
+	{
+		"code": "ko-KR",
+		"title": "Korean (한국어)"
+	},
+	
+	{
+		"code": "dg-DG",
+		"title": "Doge (🐶)"
+	}
+]
