@@ -1,12 +1,15 @@
 import logging
 import uuid
 import jwt
+<<<<<<< HEAD
 import base64
 import hmac
 import hashlib
 import requests
 import os
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 from datetime import UTC, datetime, timedelta
 from typing import Optional, Union, List, Dict
@@ -14,7 +17,11 @@ from typing import Optional, Union, List, Dict
 from open_webui.models.users import Users
 
 from open_webui.constants import ERROR_MESSAGES
+<<<<<<< HEAD
 from open_webui.env import WEBUI_SECRET_KEY, TRUSTED_SIGNATURE_KEY, STATIC_DIR
+=======
+from open_webui.env import WEBUI_SECRET_KEY
+>>>>>>> dfef03c8e (同步远程)
 
 from fastapi import Depends, HTTPException, Request, Response, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -30,6 +37,7 @@ ALGORITHM = "HS256"
 # Auth Utils
 ##############
 
+<<<<<<< HEAD
 
 def verify_signature(payload: str, signature: str) -> bool:
     """
@@ -90,6 +98,8 @@ def get_license_data(app, key):
     return False
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 bearer_security = HTTPBearer(auto_error=False)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -165,9 +175,15 @@ def get_current_user(
         if request.app.state.config.ENABLE_API_KEY_ENDPOINT_RESTRICTIONS:
             allowed_paths = [
                 path.strip()
+<<<<<<< HEAD
                 for path in str(
                     request.app.state.config.API_KEY_ALLOWED_ENDPOINTS
                 ).split(",")
+=======
+                for path in str(request.app.state.config.API_KEY_ALLOWED_PATHS).split(
+                    ","
+                )
+>>>>>>> dfef03c8e (同步远程)
             ]
 
             if request.url.path not in allowed_paths:

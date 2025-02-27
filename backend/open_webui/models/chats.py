@@ -212,6 +212,7 @@ class ChatTable:
 
         return chat.chat.get("history", {}).get("messages", {}) or {}
 
+<<<<<<< HEAD
     def get_message_by_id_and_message_id(
         self, id: str, message_id: str
     ) -> Optional[dict]:
@@ -221,6 +222,8 @@ class ChatTable:
 
         return chat.chat.get("history", {}).get("messages", {}).get(message_id, {})
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     def upsert_message_to_chat_by_id_and_message_id(
         self, id: str, message_id: str, message: dict
     ) -> Optional[ChatModel]:
@@ -393,7 +396,11 @@ class ChatTable:
         limit: int = 50,
     ) -> list[ChatModel]:
         with get_db() as db:
+<<<<<<< HEAD
             query = db.query(Chat).filter_by(user_id=user_id)
+=======
+            query = db.query(Chat).filter_by(user_id=user_id).filter_by(folder_id=None)
+>>>>>>> dfef03c8e (同步远程)
             if not include_archived:
                 query = query.filter_by(archived=False)
 
@@ -469,8 +476,11 @@ class ChatTable:
     def get_chat_by_share_id(self, id: str) -> Optional[ChatModel]:
         try:
             with get_db() as db:
+<<<<<<< HEAD
                 # it is possible that the shared link was deleted. hence,
                 # we check if the chat is still shared by checking if a chat with the share_id exists
+=======
+>>>>>>> dfef03c8e (同步远程)
                 chat = db.query(Chat).filter_by(share_id=id).first()
 
                 if chat:

@@ -11,12 +11,16 @@ from open_webui.socket.main import sio, get_user_ids_from_room
 from open_webui.models.users import Users, UserNameResponse
 
 from open_webui.models.channels import Channels, ChannelModel, ChannelForm
+<<<<<<< HEAD
 from open_webui.models.messages import (
     Messages,
     MessageModel,
     MessageResponse,
     MessageForm,
 )
+=======
+from open_webui.models.messages import Messages, MessageModel, MessageForm
+>>>>>>> dfef03c8e (同步远程)
 
 
 from open_webui.config import ENABLE_ADMIN_CHAT_ACCESS, ENABLE_ADMIN_EXPORT
@@ -54,7 +58,11 @@ async def get_channels(user=Depends(get_verified_user)):
 @router.post("/create", response_model=Optional[ChannelModel])
 async def create_new_channel(form_data: ChannelForm, user=Depends(get_admin_user)):
     try:
+<<<<<<< HEAD
         channel = Channels.insert_new_channel(None, form_data, user.id)
+=======
+        channel = Channels.insert_new_channel(form_data, user.id)
+>>>>>>> dfef03c8e (同步远程)
         return ChannelModel(**channel.model_dump())
     except Exception as e:
         log.exception(e)
@@ -139,11 +147,19 @@ async def delete_channel_by_id(id: str, user=Depends(get_admin_user)):
 ############################
 
 
+<<<<<<< HEAD
 class MessageUserResponse(MessageResponse):
     user: UserNameResponse
 
 
 @router.get("/{id}/messages", response_model=list[MessageUserResponse])
+=======
+class MessageUserModel(MessageModel):
+    user: UserNameResponse
+
+
+@router.get("/{id}/messages", response_model=list[MessageUserModel])
+>>>>>>> dfef03c8e (同步远程)
 async def get_channel_messages(
     id: str, skip: int = 0, limit: int = 50, user=Depends(get_verified_user)
 ):
@@ -169,6 +185,7 @@ async def get_channel_messages(
             user = Users.get_user_by_id(message.user_id)
             users[message.user_id] = user
 
+<<<<<<< HEAD
         replies = Messages.get_replies_by_message_id(message.id)
         latest_reply_at = replies[0].created_at if replies else None
 
@@ -179,6 +196,12 @@ async def get_channel_messages(
                     "reply_count": len(replies),
                     "latest_reply_at": latest_reply_at,
                     "reactions": Messages.get_reactions_by_message_id(message.id),
+=======
+        messages.append(
+            MessageUserModel(
+                **{
+                    **message.model_dump(),
+>>>>>>> dfef03c8e (同步远程)
                     "user": UserNameResponse(**users[message.user_id].model_dump()),
                 }
             )
@@ -192,7 +215,11 @@ async def get_channel_messages(
 ############################
 
 
+<<<<<<< HEAD
 async def send_notification(name, webui_url, channel, message, active_user_ids):
+=======
+async def send_notification(webui_url, channel, message, active_user_ids):
+>>>>>>> dfef03c8e (同步远程)
     users = get_users_with_access("read", channel.access_control)
 
     for user in users:
@@ -206,7 +233,10 @@ async def send_notification(name, webui_url, channel, message, active_user_ids):
 
                 if webhook_url:
                     post_webhook(
+<<<<<<< HEAD
                         name,
+=======
+>>>>>>> dfef03c8e (同步远程)
                         webhook_url,
                         f"#{channel.name} - {webui_url}/channels/{channel.id}\n\n{message.content}",
                         {
@@ -248,6 +278,7 @@ async def post_new_message(
                 "message_id": message.id,
                 "data": {
                     "type": "message",
+<<<<<<< HEAD
                     "data": MessageUserResponse(
                         **{
                             **message.model_dump(),
@@ -259,6 +290,12 @@ async def post_new_message(
                             "user": UserNameResponse(**user.model_dump()),
                         }
                     ).model_dump(),
+=======
+                    "data": {
+                        **message.model_dump(),
+                        "user": UserNameResponse(**user.model_dump()).model_dump(),
+                    },
+>>>>>>> dfef03c8e (同步远程)
                 },
                 "user": UserNameResponse(**user.model_dump()).model_dump(),
                 "channel": channel.model_dump(),
@@ -270,6 +307,7 @@ async def post_new_message(
                 to=f"channel:{channel.id}",
             )
 
+<<<<<<< HEAD
             if message.parent_id:
                 # If this message is a reply, emit to the parent message as well
                 parent_message = Messages.get_message_by_id(message.parent_id)
@@ -299,11 +337,16 @@ async def post_new_message(
                         to=f"channel:{channel.id}",
                     )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
             active_user_ids = get_user_ids_from_room(f"channel:{channel.id}")
 
             background_tasks.add_task(
                 send_notification,
+<<<<<<< HEAD
                 request.app.state.WEBUI_NAME,
+=======
+>>>>>>> dfef03c8e (同步远程)
                 request.app.state.config.WEBUI_URL,
                 channel,
                 message,
@@ -319,6 +362,7 @@ async def post_new_message(
 
 
 ############################
+<<<<<<< HEAD
 # GetChannelMessage
 ############################
 
@@ -414,6 +458,8 @@ async def get_channel_thread_messages(
 
 
 ############################
+=======
+>>>>>>> dfef03c8e (同步远程)
 # UpdateMessageById
 ############################
 
@@ -450,8 +496,11 @@ async def update_message_by_id(
 
     try:
         message = Messages.update_message_by_id(message_id, form_data)
+<<<<<<< HEAD
         message = Messages.get_message_by_id(message_id)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         if message:
             await sio.emit(
                 "channel-events",
@@ -460,6 +509,7 @@ async def update_message_by_id(
                     "message_id": message.id,
                     "data": {
                         "type": "message:update",
+<<<<<<< HEAD
                         "data": MessageUserResponse(
                             **{
                                 **message.model_dump(),
@@ -468,6 +518,12 @@ async def update_message_by_id(
                                 ).model_dump(),
                             }
                         ).model_dump(),
+=======
+                        "data": {
+                            **message.model_dump(),
+                            "user": UserNameResponse(**user.model_dump()).model_dump(),
+                        },
+>>>>>>> dfef03c8e (同步远程)
                     },
                     "user": UserNameResponse(**user.model_dump()).model_dump(),
                     "channel": channel.model_dump(),
@@ -484,6 +540,7 @@ async def update_message_by_id(
 
 
 ############################
+<<<<<<< HEAD
 # AddReactionToMessage
 ############################
 
@@ -623,6 +680,8 @@ async def remove_reaction_by_id_and_user_id_and_name(
 
 
 ############################
+=======
+>>>>>>> dfef03c8e (同步远程)
 # DeleteMessageById
 ############################
 
@@ -675,6 +734,7 @@ async def delete_message_by_id(
             to=f"channel:{channel.id}",
         )
 
+<<<<<<< HEAD
         if message.parent_id:
             # If this message is a reply, emit to the parent message as well
             parent_message = Messages.get_message_by_id(message.parent_id)
@@ -704,6 +764,8 @@ async def delete_message_by_id(
                     to=f"channel:{channel.id}",
                 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         return True
     except Exception as e:
         log.exception(e)

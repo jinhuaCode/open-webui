@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import validators
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -12,8 +15,11 @@ def get_filtered_results(results, filter_list):
     filtered_results = []
     for result in results:
         url = result.get("url") or result.get("link", "")
+<<<<<<< HEAD
         if not validators.url(url):
             continue
+=======
+>>>>>>> dfef03c8e (同步远程)
         domain = urlparse(url).netloc
         if any(domain.endswith(filtered_domain) for filtered_domain in filter_list):
             filtered_results.append(result)

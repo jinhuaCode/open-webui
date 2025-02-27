@@ -2,8 +2,11 @@ import os
 from pathlib import Path
 from typing import Optional
 
+<<<<<<< HEAD
 
 from open_webui.models.users import Users
+=======
+>>>>>>> dfef03c8e (同步远程)
 from open_webui.models.groups import (
     Groups,
     GroupForm,
@@ -82,9 +85,12 @@ async def update_group_by_id(
     id: str, form_data: GroupUpdateForm, user=Depends(get_admin_user)
 ):
     try:
+<<<<<<< HEAD
         if form_data.user_ids:
             form_data.user_ids = Users.get_valid_user_ids(form_data.user_ids)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         group = Groups.update_group_by_id(id, form_data)
         if group:
             return group

@@ -2,7 +2,10 @@ from datetime import datetime
 from io import BytesIO
 from pathlib import Path
 from typing import Dict, Any, List
+<<<<<<< HEAD
 from html import escape
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 from markdown import markdown
 
@@ -42,6 +45,7 @@ class PDFGenerator:
 
     def _build_html_message(self, message: Dict[str, Any]) -> str:
         """Build HTML for a single message."""
+<<<<<<< HEAD
         role = escape(message.get("role", "user"))
         content = escape(message.get("content", ""))
         timestamp = message.get("timestamp")
@@ -49,12 +53,24 @@ class PDFGenerator:
         model = escape(message.get("model") if role == "assistant" else "")
 
         date_str = escape(self.format_timestamp(timestamp) if timestamp else "")
+=======
+        role = message.get("role", "user")
+        content = message.get("content", "")
+        timestamp = message.get("timestamp")
+
+        model = message.get("model") if role == "assistant" else ""
+
+        date_str = self.format_timestamp(timestamp) if timestamp else ""
+>>>>>>> dfef03c8e (同步远程)
 
         # extends pymdownx extension to convert markdown to html.
         # - https://facelessuser.github.io/pymdown-extensions/usage_notes/
         # html_content = markdown(content, extensions=["pymdownx.extra"])
 
+<<<<<<< HEAD
         content = content.replace("\n", "<br/>")
+=======
+>>>>>>> dfef03c8e (同步远程)
         html_message = f"""
             <div>
                 <div>
@@ -77,7 +93,10 @@ class PDFGenerator:
 
     def _generate_html_body(self) -> str:
         """Generate the full HTML body for the PDF."""
+<<<<<<< HEAD
         escaped_title = escape(self.form_data.title)
+=======
+>>>>>>> dfef03c8e (同步远程)
         return f"""
         <html>
             <head>
@@ -86,7 +105,11 @@ class PDFGenerator:
             <body>
             <div>
                 <div>
+<<<<<<< HEAD
                     <h2>{escaped_title}</h2>
+=======
+                    <h2>{self.form_data.title}</h2>
+>>>>>>> dfef03c8e (同步远程)
                     {self.messages_html}
                 </div>
             </div>

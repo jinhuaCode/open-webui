@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import asyncio
 import logging
 import socket
@@ -34,6 +35,25 @@ from open_webui.config import (
 )
 from open_webui.env import SRC_LOG_LEVELS
 
+=======
+import socket
+import urllib.parse
+import validators
+from typing import Union, Sequence, Iterator
+
+from langchain_community.document_loaders import (
+    WebBaseLoader,
+)
+from langchain_core.documents import Document
+
+
+from open_webui.constants import ERROR_MESSAGES
+from open_webui.config import ENABLE_RAG_LOCAL_WEB_FETCH
+from open_webui.env import SRC_LOG_LEVELS
+
+import logging
+
+>>>>>>> dfef03c8e (同步远程)
 log = logging.getLogger(__name__)
 log.setLevel(SRC_LOG_LEVELS["RAG"])
 
@@ -62,6 +82,7 @@ def validate_url(url: Union[str, Sequence[str]]):
         return False
 
 
+<<<<<<< HEAD
 def safe_validate_urls(url: Sequence[str]) -> Sequence[str]:
     valid_urls = []
     for u in url:
@@ -73,6 +94,8 @@ def safe_validate_urls(url: Sequence[str]) -> Sequence[str]:
     return valid_urls
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def resolve_hostname(hostname):
     # Get address information
     addr_info = socket.getaddrinfo(hostname, None)
@@ -84,6 +107,7 @@ def resolve_hostname(hostname):
     return ipv4_addresses, ipv6_addresses
 
 
+<<<<<<< HEAD
 def extract_metadata(soup, url):
     metadata = {"source": url}
     if title := soup.find("title"):
@@ -459,6 +483,11 @@ class SafeWebBaseLoader(WebBaseLoader):
         results = await self.fetch_all(urls)
         return self._unpack_fetch_results(results, urls, parser=parser)
 
+=======
+class SafeWebBaseLoader(WebBaseLoader):
+    """WebBaseLoader with enhanced error handling for URLs."""
+
+>>>>>>> dfef03c8e (同步远程)
     def lazy_load(self) -> Iterator[Document]:
         """Lazy load text from the url(s) in web_path with error handling."""
         for path in self.web_paths:
@@ -467,11 +496,24 @@ class SafeWebBaseLoader(WebBaseLoader):
                 text = soup.get_text(**self.bs_get_text_kwargs)
 
                 # Build metadata
+<<<<<<< HEAD
                 metadata = extract_metadata(soup, path)
+=======
+                metadata = {"source": path}
+                if title := soup.find("title"):
+                    metadata["title"] = title.get_text()
+                if description := soup.find("meta", attrs={"name": "description"}):
+                    metadata["description"] = description.get(
+                        "content", "No description found."
+                    )
+                if html := soup.find("html"):
+                    metadata["language"] = html.get("lang", "No language found.")
+>>>>>>> dfef03c8e (同步远程)
 
                 yield Document(page_content=text, metadata=metadata)
             except Exception as e:
                 # Log the error and continue with the next URL
+<<<<<<< HEAD
                 log.exception(e, "Error loading %s", path)
 
     async def alazy_load(self) -> AsyncIterator[Document]:
@@ -499,12 +541,16 @@ RAG_WEB_LOADER_ENGINES = defaultdict(lambda: SafeWebBaseLoader)
 RAG_WEB_LOADER_ENGINES["playwright"] = SafePlaywrightURLLoader
 RAG_WEB_LOADER_ENGINES["safe_web"] = SafeWebBaseLoader
 RAG_WEB_LOADER_ENGINES["firecrawl"] = SafeFireCrawlLoader
+=======
+                log.error(f"Error loading {path}: {e}")
+>>>>>>> dfef03c8e (同步远程)
 
 
 def get_web_loader(
     urls: Union[str, Sequence[str]],
     verify_ssl: bool = True,
     requests_per_second: int = 2,
+<<<<<<< HEAD
     trust_env: bool = False,
 ):
     # Check if the URLs are valid
@@ -536,3 +582,15 @@ def get_web_loader(
     )
 
     return web_loader
+=======
+):
+    # Check if the URL is valid
+    if not validate_url(urls):
+        raise ValueError(ERROR_MESSAGES.INVALID_URL)
+    return SafeWebBaseLoader(
+        urls,
+        verify_ssl=verify_ssl,
+        requests_per_second=requests_per_second,
+        continue_on_failure=True,
+    )
+>>>>>>> dfef03c8e (同步远程)

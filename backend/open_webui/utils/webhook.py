@@ -2,14 +2,22 @@ import json
 import logging
 
 import requests
+<<<<<<< HEAD
 from open_webui.config import WEBUI_FAVICON_URL
+=======
+from open_webui.config import WEBUI_FAVICON_URL, WEBUI_NAME
+>>>>>>> dfef03c8e (同步远程)
 from open_webui.env import SRC_LOG_LEVELS, VERSION
 
 log = logging.getLogger(__name__)
 log.setLevel(SRC_LOG_LEVELS["WEBHOOK"])
 
 
+<<<<<<< HEAD
 def post_webhook(name: str, url: str, message: str, event_data: dict) -> bool:
+=======
+def post_webhook(url: str, message: str, event_data: dict) -> bool:
+>>>>>>> dfef03c8e (同步远程)
     try:
         log.debug(f"post_webhook: {url}, {message}, {event_data}")
         payload = {}
@@ -39,7 +47,11 @@ def post_webhook(name: str, url: str, message: str, event_data: dict) -> bool:
                 "sections": [
                     {
                         "activityTitle": message,
+<<<<<<< HEAD
                         "activitySubtitle": f"{name} ({VERSION}) - {action}",
+=======
+                        "activitySubtitle": f"{WEBUI_NAME} ({VERSION}) - {action}",
+>>>>>>> dfef03c8e (同步远程)
                         "activityImage": WEBUI_FAVICON_URL,
                         "facts": facts,
                         "markdown": True,

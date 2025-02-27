@@ -1,11 +1,15 @@
 import json
+<<<<<<< HEAD
 from uuid import uuid4
+=======
+>>>>>>> dfef03c8e (同步远程)
 from open_webui.utils.misc import (
     openai_chat_chunk_message_template,
     openai_chat_completion_message_template,
 )
 
 
+<<<<<<< HEAD
 def convert_ollama_tool_call_to_openai(tool_calls: dict) -> dict:
     openai_tool_calls = []
     for tool_call in tool_calls:
@@ -96,6 +100,13 @@ def convert_response_ollama_to_openai(ollama_response: dict) -> dict:
     response = openai_chat_completion_message_template(
         model, message_content, openai_tool_calls, usage
     )
+=======
+def convert_response_ollama_to_openai(ollama_response: dict) -> dict:
+    model = ollama_response.get("model", "ollama")
+    message_content = ollama_response.get("message", {}).get("content", "")
+
+    response = openai_chat_completion_message_template(model, message_content)
+>>>>>>> dfef03c8e (同步远程)
     return response
 
 
@@ -105,20 +116,68 @@ async def convert_streaming_response_ollama_to_openai(ollama_streaming_response)
 
         model = data.get("model", "ollama")
         message_content = data.get("message", {}).get("content", "")
+<<<<<<< HEAD
         tool_calls = data.get("message", {}).get("tool_calls", None)
         openai_tool_calls = None
 
         if tool_calls:
             openai_tool_calls = convert_ollama_tool_call_to_openai(tool_calls)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         done = data.get("done", False)
 
         usage = None
         if done:
+<<<<<<< HEAD
             usage = convert_ollama_usage_to_openai(data)
 
         data = openai_chat_chunk_message_template(
             model, message_content if not done else None, openai_tool_calls, usage
+=======
+            usage = {
+                "response_token/s": (
+                    round(
+                        (
+                            (
+                                data.get("eval_count", 0)
+                                / ((data.get("eval_duration", 0) / 1_000_000))
+                            )
+                            * 100
+                        ),
+                        2,
+                    )
+                    if data.get("eval_duration", 0) > 0
+                    else "N/A"
+                ),
+                "prompt_token/s": (
+                    round(
+                        (
+                            (
+                                data.get("prompt_eval_count", 0)
+                                / ((data.get("prompt_eval_duration", 0) / 1_000_000))
+                            )
+                            * 100
+                        ),
+                        2,
+                    )
+                    if data.get("prompt_eval_duration", 0) > 0
+                    else "N/A"
+                ),
+                "total_duration": data.get("total_duration", 0),
+                "load_duration": data.get("load_duration", 0),
+                "prompt_eval_count": data.get("prompt_eval_count", 0),
+                "prompt_eval_duration": data.get("prompt_eval_duration", 0),
+                "eval_count": data.get("eval_count", 0),
+                "eval_duration": data.get("eval_duration", 0),
+                "approximate_total": (
+                    lambda s: f"{s // 3600}h{(s % 3600) // 60}m{s % 60}s"
+                )((data.get("total_duration", 0) or 0) // 1_000_000_000),
+            }
+
+        data = openai_chat_chunk_message_template(
+            model, message_content if not done else None, usage
+>>>>>>> dfef03c8e (同步远程)
         )
 
         line = f"data: {json.dumps(data)}\n\n"

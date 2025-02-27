@@ -11,7 +11,10 @@ from pydub.silence import split_on_silence
 import aiohttp
 import aiofiles
 import requests
+<<<<<<< HEAD
 import mimetypes
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 from fastapi import (
     Depends,
@@ -37,7 +40,10 @@ from open_webui.config import (
 
 from open_webui.constants import ERROR_MESSAGES
 from open_webui.env import (
+<<<<<<< HEAD
     AIOHTTP_CLIENT_TIMEOUT,
+=======
+>>>>>>> dfef03c8e (同步远程)
     ENV,
     SRC_LOG_LEVELS,
     DEVICE_TYPE,
@@ -140,7 +146,10 @@ class STTConfigForm(BaseModel):
     ENGINE: str
     MODEL: str
     WHISPER_MODEL: str
+<<<<<<< HEAD
     DEEPGRAM_API_KEY: str
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 
 class AudioConfigUpdateForm(BaseModel):
@@ -168,7 +177,10 @@ async def get_audio_config(request: Request, user=Depends(get_admin_user)):
             "ENGINE": request.app.state.config.STT_ENGINE,
             "MODEL": request.app.state.config.STT_MODEL,
             "WHISPER_MODEL": request.app.state.config.WHISPER_MODEL,
+<<<<<<< HEAD
             "DEEPGRAM_API_KEY": request.app.state.config.DEEPGRAM_API_KEY,
+=======
+>>>>>>> dfef03c8e (同步远程)
         },
     }
 
@@ -194,7 +206,10 @@ async def update_audio_config(
     request.app.state.config.STT_ENGINE = form_data.stt.ENGINE
     request.app.state.config.STT_MODEL = form_data.stt.MODEL
     request.app.state.config.WHISPER_MODEL = form_data.stt.WHISPER_MODEL
+<<<<<<< HEAD
     request.app.state.config.DEEPGRAM_API_KEY = form_data.stt.DEEPGRAM_API_KEY
+=======
+>>>>>>> dfef03c8e (同步远程)
 
     if request.app.state.config.STT_ENGINE == "":
         request.app.state.faster_whisper_model = set_faster_whisper_model(
@@ -219,7 +234,10 @@ async def update_audio_config(
             "ENGINE": request.app.state.config.STT_ENGINE,
             "MODEL": request.app.state.config.STT_MODEL,
             "WHISPER_MODEL": request.app.state.config.WHISPER_MODEL,
+<<<<<<< HEAD
             "DEEPGRAM_API_KEY": request.app.state.config.DEEPGRAM_API_KEY,
+=======
+>>>>>>> dfef03c8e (同步远程)
         },
     }
 
@@ -267,10 +285,14 @@ async def speech(request: Request, user=Depends(get_verified_user)):
 
         try:
             # print(payload)
+<<<<<<< HEAD
             timeout = aiohttp.ClientTimeout(total=AIOHTTP_CLIENT_TIMEOUT)
             async with aiohttp.ClientSession(
                 timeout=timeout, trust_env=True
             ) as session:
+=======
+            async with aiohttp.ClientSession() as session:
+>>>>>>> dfef03c8e (同步远程)
                 async with session.post(
                     url=f"{request.app.state.config.TTS_OPENAI_API_BASE_URL}/audio/speech",
                     json=payload,
@@ -327,10 +349,14 @@ async def speech(request: Request, user=Depends(get_verified_user)):
             )
 
         try:
+<<<<<<< HEAD
             timeout = aiohttp.ClientTimeout(total=AIOHTTP_CLIENT_TIMEOUT)
             async with aiohttp.ClientSession(
                 timeout=timeout, trust_env=True
             ) as session:
+=======
+            async with aiohttp.ClientSession() as session:
+>>>>>>> dfef03c8e (同步远程)
                 async with session.post(
                     f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
                     json={
@@ -387,10 +413,14 @@ async def speech(request: Request, user=Depends(get_verified_user)):
             data = f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="{locale}">
                 <voice name="{language}">{payload["input"]}</voice>
             </speak>"""
+<<<<<<< HEAD
             timeout = aiohttp.ClientTimeout(total=AIOHTTP_CLIENT_TIMEOUT)
             async with aiohttp.ClientSession(
                 timeout=timeout, trust_env=True
             ) as session:
+=======
+            async with aiohttp.ClientSession() as session:
+>>>>>>> dfef03c8e (同步远程)
                 async with session.post(
                     f"https://{region}.tts.speech.microsoft.com/cognitiveservices/v1",
                     headers={
@@ -536,6 +566,7 @@ def transcribe(request: Request, file_path):
 
             raise Exception(detail if detail else "Open WebUI: Server Connection Error")
 
+<<<<<<< HEAD
     elif request.app.state.config.STT_ENGINE == "deepgram":
         try:
             # Determine the MIME type of the file
@@ -599,6 +630,8 @@ def transcribe(request: Request, file_path):
                     detail = f"External: {e}"
             raise Exception(detail if detail else "Open WebUI: Server Connection Error")
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 def compress_audio(file_path):
     if os.path.getsize(file_path) > MAX_FILE_SIZE:

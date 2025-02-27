@@ -16,9 +16,12 @@ For the UI configuration, you can set up the Apache VirtualHost as follows:
 
     ProxyPass / http://server.com:3000/ nocanon
     ProxyPassReverse / http://server.com:3000/
+<<<<<<< HEAD
     # Needed after 0.5
     ProxyPass / ws://server.com:3000/ nocanon
     ProxyPassReverse / ws://server.com:3000/
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 </VirtualHost>
 ```
@@ -35,9 +38,12 @@ Enable the site first before you can request SSL:
 
     ProxyPass / http://server.com:3000/ nocanon
     ProxyPassReverse / http://server.com:3000/
+<<<<<<< HEAD
     # Needed after 0.5
     ProxyPass / ws://server.com:3000/ nocanon
     ProxyPassReverse / ws://server.com:3000/
+=======
+>>>>>>> dfef03c8e (同步远程)
 
     SSLEngine on
     SSLCertificateFile /etc/ssl/virtualmin/170514456861234/ssl.cert
@@ -194,7 +200,11 @@ Don't forget to restart/reload Apache with `systemctl reload apache2`
 
 Open your site at https://server.com!
 
+<<<<<<< HEAD
 **Congratulations**, your _**Open-AI-like Chat-GPT style UI**_ is now serving AI with RAG, RBAC and multimodal features! Download Ollama models if you haven't yet done so!
+=======
+**Congratulations**, your _**Open-AI-like Chat-Apps style UI**_ is now serving AI with RAG, RBAC and multimodal features! Download Ollama models if you haven't yet done so!
+>>>>>>> dfef03c8e (同步远程)
 
 If you encounter any misconfiguration or errors, please file an issue or engage with our discussion. There are a lot of friendly developers here to assist you.
 

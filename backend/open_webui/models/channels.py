@@ -21,7 +21,10 @@ class Channel(Base):
 
     id = Column(Text, primary_key=True)
     user_id = Column(Text)
+<<<<<<< HEAD
     type = Column(Text, nullable=True)
+=======
+>>>>>>> dfef03c8e (同步远程)
 
     name = Column(Text)
     description = Column(Text, nullable=True)
@@ -39,11 +42,17 @@ class ChannelModel(BaseModel):
 
     id: str
     user_id: str
+<<<<<<< HEAD
     type: Optional[str] = None
 
     name: str
     description: Optional[str] = None
 
+=======
+    description: Optional[str] = None
+
+    name: str
+>>>>>>> dfef03c8e (同步远程)
     data: Optional[dict] = None
     meta: Optional[dict] = None
     access_control: Optional[dict] = None
@@ -67,13 +76,20 @@ class ChannelForm(BaseModel):
 
 class ChannelTable:
     def insert_new_channel(
+<<<<<<< HEAD
         self, type: Optional[str], form_data: ChannelForm, user_id: str
+=======
+        self, form_data: ChannelForm, user_id: str
+>>>>>>> dfef03c8e (同步远程)
     ) -> Optional[ChannelModel]:
         with get_db() as db:
             channel = ChannelModel(
                 **{
                     **form_data.model_dump(),
+<<<<<<< HEAD
                     "type": type,
+=======
+>>>>>>> dfef03c8e (同步远程)
                     "name": form_data.name.lower(),
                     "id": str(uuid.uuid4()),
                     "user_id": user_id,

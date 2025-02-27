@@ -20,6 +20,7 @@ def search_jina(api_key: str, query: str, count: int) -> list[SearchResult]:
         list[SearchResult]: A list of search results
     """
     jina_search_endpoint = "https://s.jina.ai/"
+<<<<<<< HEAD
 
     headers = {
         "Accept": "application/json",
@@ -32,11 +33,20 @@ def search_jina(api_key: str, query: str, count: int) -> list[SearchResult]:
 
     url = str(URL(jina_search_endpoint))
     response = requests.post(url, headers=headers, json=payload)
+=======
+    headers = {"Accept": "application/json", "Authorization": f"Bearer {api_key}"}
+    url = str(URL(jina_search_endpoint + query))
+    response = requests.get(url, headers=headers)
+>>>>>>> dfef03c8e (同步远程)
     response.raise_for_status()
     data = response.json()
 
     results = []
+<<<<<<< HEAD
     for result in data["data"]:
+=======
+    for result in data["data"][:count]:
+>>>>>>> dfef03c8e (同步远程)
         results.append(
             SearchResult(
                 link=result["url"],

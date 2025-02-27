@@ -167,6 +167,7 @@ def load_function_module_by_id(function_id, content=None):
 
 def install_frontmatter_requirements(requirements):
     if requirements:
+<<<<<<< HEAD
         try:
             req_list = [req.strip() for req in requirements.split(",")]
             for req in req_list:
@@ -176,5 +177,11 @@ def install_frontmatter_requirements(requirements):
             log.error(f"Error installing package: {req}")
             raise e
 
+=======
+        req_list = [req.strip() for req in requirements.split(",")]
+        for req in req_list:
+            log.info(f"Installing requirement: {req}")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", req])
+>>>>>>> dfef03c8e (同步远程)
     else:
         log.info("No requirements found in frontmatter.")

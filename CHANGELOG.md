@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<<<<<<< HEAD
 ## [0.5.16] - 2025-02-20
 
 ### Fixed
@@ -235,6 +236,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **⏳ Custom Pipe Function Completion**: Resolved an issue where chats using specific custom pipe function plugins weren’t finishing properly, restoring consistent chat workflows.
 - **✅ General Stability Enhancements**: Implemented various under-the-hood improvements to boost overall reliability, ensuring smoother and more consistent performance across the WebUI.
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 ## [0.5.2] - 2024-12-26
 
 ### Added
@@ -1125,7 +1128,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **📚 Knowledge Support for Models**: Attach documents directly to models from the models workspace, enhancing the information available to each model.
 - **🎙️ Hands-Free Voice Call Feature**: Initiate voice calls without needing to use your hands, making interactions more seamless.
+<<<<<<< HEAD
 - **📹 Video Call Feature**: Enable video calls with supported vision models like Llava and GPT-4o, adding a visual dimension to your communications.
+=======
+- **📹 Video Call Feature**: Enable video calls with supported vision models like Llava and Apps-4o, adding a visual dimension to your communications.
+>>>>>>> dfef03c8e (同步远程)
 - **🎛️ Enhanced UI for Voice Recording**: Improved user interface for the voice recording feature, making it more intuitive and user-friendly.
 - **🌐 External STT Support**: Now support for external Speech-To-Text services, providing more flexibility in choosing your STT provider.
 - **⚙️ Unified Settings**: Consolidated settings including document settings under a new admin settings section for easier management.

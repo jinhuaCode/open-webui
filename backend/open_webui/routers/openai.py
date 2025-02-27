@@ -75,9 +75,15 @@ async def cleanup_response(
         await session.close()
 
 
+<<<<<<< HEAD
 def openai_o1_o3_handler(payload):
     """
     Handle o1, o3 specific parameters
+=======
+def openai_o1_handler(payload):
+    """
+    Handle O1 specific parameters
+>>>>>>> dfef03c8e (同步远程)
     """
     if "max_tokens" in payload:
         # Remove "max_tokens" from the payload
@@ -145,6 +151,7 @@ async def update_config(
 
     request.app.state.config.OPENAI_API_CONFIGS = form_data.OPENAI_API_CONFIGS
 
+<<<<<<< HEAD
     # Remove the API configs that are not in the API URLS
     keys = list(map(str, range(len(request.app.state.config.OPENAI_API_BASE_URLS))))
     request.app.state.config.OPENAI_API_CONFIGS = {
@@ -152,6 +159,13 @@ async def update_config(
         for key, value in request.app.state.config.OPENAI_API_CONFIGS.items()
         if key in keys
     }
+=======
+    # Remove any extra configs
+    config_urls = request.app.state.config.OPENAI_API_CONFIGS.keys()
+    for idx, url in enumerate(request.app.state.config.OPENAI_API_BASE_URLS):
+        if url not in config_urls:
+            request.app.state.config.OPENAI_API_CONFIGS.pop(url, None)
+>>>>>>> dfef03c8e (同步远程)
 
     return {
         "ENABLE_OPENAI_API": request.app.state.config.ENABLE_OPENAI_API,
@@ -266,21 +280,29 @@ async def get_all_models_responses(request: Request) -> list:
 
     request_tasks = []
     for idx, url in enumerate(request.app.state.config.OPENAI_API_BASE_URLS):
+<<<<<<< HEAD
         if (str(idx) not in request.app.state.config.OPENAI_API_CONFIGS) and (
             url not in request.app.state.config.OPENAI_API_CONFIGS  # Legacy support
         ):
+=======
+        if url not in request.app.state.config.OPENAI_API_CONFIGS:
+>>>>>>> dfef03c8e (同步远程)
             request_tasks.append(
                 send_get_request(
                     f"{url}/models", request.app.state.config.OPENAI_API_KEYS[idx]
                 )
             )
         else:
+<<<<<<< HEAD
             api_config = request.app.state.config.OPENAI_API_CONFIGS.get(
                 str(idx),
                 request.app.state.config.OPENAI_API_CONFIGS.get(
                     url, {}
                 ),  # Legacy support
             )
+=======
+            api_config = request.app.state.config.OPENAI_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
             enable = api_config.get("enable", True)
             model_ids = api_config.get("model_ids", [])
@@ -319,12 +341,16 @@ async def get_all_models_responses(request: Request) -> list:
     for idx, response in enumerate(responses):
         if response:
             url = request.app.state.config.OPENAI_API_BASE_URLS[idx]
+<<<<<<< HEAD
             api_config = request.app.state.config.OPENAI_API_CONFIGS.get(
                 str(idx),
                 request.app.state.config.OPENAI_API_CONFIGS.get(
                     url, {}
                 ),  # Legacy support
             )
+=======
+            api_config = request.app.state.config.OPENAI_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
             prefix_id = api_config.get("prefix_id", None)
 
@@ -489,7 +515,11 @@ async def get_models(
                 raise HTTPException(status_code=500, detail=error_detail)
 
     if user.role == "user" and not BYPASS_MODEL_ACCESS_CONTROL:
+<<<<<<< HEAD
         models["data"] = await get_filtered_models(models, user)
+=======
+        models["data"] = get_filtered_models(models, user)
+>>>>>>> dfef03c8e (同步远程)
 
     return models
 
@@ -551,9 +581,15 @@ async def generate_chat_completion(
         bypass_filter = True
 
     idx = 0
+<<<<<<< HEAD
 
     payload = {**form_data}
     metadata = payload.pop("metadata", None)
+=======
+    payload = {**form_data}
+    if "metadata" in payload:
+        del payload["metadata"]
+>>>>>>> dfef03c8e (同步远程)
 
     model_id = form_data.get("model")
     model_info = Models.get_model_by_id(model_id)
@@ -566,7 +602,11 @@ async def generate_chat_completion(
 
         params = model_info.params.model_dump()
         payload = apply_model_params_to_body_openai(params, payload)
+<<<<<<< HEAD
         payload = apply_model_system_prompt_to_body(params, payload, metadata, user)
+=======
+        payload = apply_model_system_prompt_to_body(params, payload, user)
+>>>>>>> dfef03c8e (同步远程)
 
         # Check if user has access to the model
         if not bypass_filter and user.role == "user":
@@ -587,7 +627,10 @@ async def generate_chat_completion(
                 detail="Model not found",
             )
 
+<<<<<<< HEAD
     await get_all_models(request)
+=======
+>>>>>>> dfef03c8e (同步远程)
     model = request.app.state.OPENAI_MODELS.get(model_id)
     if model:
         idx = model["urlIdx"]
@@ -599,10 +642,14 @@ async def generate_chat_completion(
 
     # Get the API config for the model
     api_config = request.app.state.config.OPENAI_API_CONFIGS.get(
+<<<<<<< HEAD
         str(idx),
         request.app.state.config.OPENAI_API_CONFIGS.get(
             request.app.state.config.OPENAI_API_BASE_URLS[idx], {}
         ),  # Legacy support
+=======
+        request.app.state.config.OPENAI_API_BASE_URLS[idx], {}
+>>>>>>> dfef03c8e (同步远程)
     )
 
     prefix_id = api_config.get("prefix_id", None)
@@ -621,10 +668,17 @@ async def generate_chat_completion(
     url = request.app.state.config.OPENAI_API_BASE_URLS[idx]
     key = request.app.state.config.OPENAI_API_KEYS[idx]
 
+<<<<<<< HEAD
     # Fix: o1,o3 does not support the "max_tokens" parameter, Modify "max_tokens" to "max_completion_tokens"
     is_o1_o3 = payload["model"].lower().startswith(("o1", "o3-"))
     if is_o1_o3:
         payload = openai_o1_o3_handler(payload)
+=======
+    # Fix: O1 does not support the "max_tokens" parameter, Modify "max_tokens" to "max_completion_tokens"
+    is_o1 = payload["model"].lower().startswith("o1-")
+    if is_o1:
+        payload = openai_o1_handler(payload)
+>>>>>>> dfef03c8e (同步远程)
     elif "api.openai.com" not in url:
         # Remove "max_completion_tokens" from the payload for backward compatibility
         if "max_completion_tokens" in payload:

@@ -53,6 +53,7 @@
 				"link": "https://www.google.com/search?sca_esv=acb05f42373aaad6&gl=us&hl=en&q=Python&si=ACC90nyvvWro6QmnyY1IfSdgk5wwjB1r8BGd_IWRjXqmKPQqmwbtPHPEcZi5JOYKaqe_iu1m4TVPotntrDVKbuXCkoFhx-K-Dp6PbewOILPFWjhDofHha-WRuSQCgY7LnBkzXtVH7pxiRdHONv3wpVsflGBg_EdTHCxOnyWt1nDgBmCjsfchXU7DKtJq159-V0-seE_cp7VV&sa=X&ved=2ahUKEwi17_rnppWIAxX2rokEHfAoEzYQmxMoAHoECDYQAg"
 			}
 		],
+<<<<<<< HEAD
 		"engine": "GPT-4; GPT-4o; GPT-4o mini",
 		"engine_links": [
 			{
@@ -66,6 +67,21 @@
 			{
 				"text": "GPT-4o",
 				"link": "https://www.google.com/search?sca_esv=acb05f42373aaad6&gl=us&hl=en&q=GPT-4o&stick=H4sIAAAAAAAAAONgVuLVT9c3NCyryEg3rMooWMTK5h4QomuSDwC3NAfvGgAAAA&sa=X&ved=2ahUKEwi17_rnppWIAxX2rokEHfAoEzYQmxMoAnoECDUQBA"
+=======
+		"engine": "Apps-4; Apps-4o; Apps-4o mini",
+		"engine_links": [
+			{
+				"text": "Apps-4",
+				"link": "https://www.google.com/search?sca_esv=acb05f42373aaad6&gl=us&hl=en&q=Apps-4&stick=H4sIAAAAAAAAAONgVuLVT9c3NMy2TI_PNUtOX8TK6h4QomsCAKiBOxkZAAAA&sa=X&ved=2ahUKEwi17_rnppWIAxX2rokEHfAoEzYQmxMoAHoECDUQAg"
+			},
+			{
+				"text": "Apps-4o",
+				"link": "https://www.google.com/search?sca_esv=acb05f42373aaad6&gl=us&hl=en&q=Apps-4o&stick=H4sIAAAAAAAAAONgVuLVT9c3NCyryEg3rMooWMTK5h4QomuSDwC3NAfvGgAAAA&sa=X&ved=2ahUKEwi17_rnppWIAxX2rokEHfAoEzYQmxMoAXoECDUQAw"
+			},
+			{
+				"text": "Apps-4o",
+				"link": "https://www.google.com/search?sca_esv=acb05f42373aaad6&gl=us&hl=en&q=Apps-4o&stick=H4sIAAAAAAAAAONgVuLVT9c3NCyryEg3rMooWMTK5h4QomuSDwC3NAfvGgAAAA&sa=X&ved=2ahUKEwi17_rnppWIAxX2rokEHfAoEzYQmxMoAnoECDUQBA"
+>>>>>>> dfef03c8e (同步远程)
 			}
 		],
 		"license": "Proprietary",
@@ -257,7 +273,11 @@
 				"thumbnail": "data:image/jpeg;base64,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"
 			},
 			{
+<<<<<<< HEAD
 				"title": "ChatGPT Tutorial - A Crash Course on Chat GPT for Beginners",
+=======
+				"title": "ChatGPT Tutorial - A Crash Course on Chat Apps for Beginners",
+>>>>>>> dfef03c8e (同步远程)
 				"source": {
 					"name": "YouTube",
 					"link": "https://m.youtube.com/watch?v=JTxsNm9IdYU"

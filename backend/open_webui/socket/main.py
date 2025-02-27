@@ -237,7 +237,10 @@ async def channel_events(sid, data):
             "channel-events",
             {
                 "channel_id": data["channel_id"],
+<<<<<<< HEAD
                 "message_id": data.get("message_id", None),
+=======
+>>>>>>> dfef03c8e (同步远程)
                 "data": event_data,
                 "user": UserNameResponse(**SESSION_POOL[sid]).model_dump(),
             },
@@ -279,8 +282,13 @@ def get_event_emitter(request_info):
             await sio.emit(
                 "chat-events",
                 {
+<<<<<<< HEAD
                     "chat_id": request_info.get("chat_id", None),
                     "message_id": request_info.get("message_id", None),
+=======
+                    "chat_id": request_info["chat_id"],
+                    "message_id": request_info["message_id"],
+>>>>>>> dfef03c8e (同步远程)
                     "data": event_data,
                 },
                 to=session_id,
@@ -293,6 +301,7 @@ def get_event_emitter(request_info):
                 event_data.get("data", {}),
             )
 
+<<<<<<< HEAD
         if "type" in event_data and event_data["type"] == "message":
             message = Chats.get_message_by_id_and_message_id(
                 request_info["chat_id"],
@@ -321,26 +330,41 @@ def get_event_emitter(request_info):
                 },
             )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     return __event_emitter__
 
 
 def get_event_call(request_info):
+<<<<<<< HEAD
     async def __event_caller__(event_data):
         response = await sio.call(
             "chat-events",
             {
                 "chat_id": request_info.get("chat_id", None),
                 "message_id": request_info.get("message_id", None),
+=======
+    async def __event_call__(event_data):
+        response = await sio.call(
+            "chat-events",
+            {
+                "chat_id": request_info["chat_id"],
+                "message_id": request_info["message_id"],
+>>>>>>> dfef03c8e (同步远程)
                 "data": event_data,
             },
             to=request_info["session_id"],
         )
         return response
 
+<<<<<<< HEAD
     return __event_caller__
 
 
 get_event_caller = get_event_call
+=======
+    return __event_call__
+>>>>>>> dfef03c8e (同步远程)
 
 
 def get_user_id_from_session_pool(sid):

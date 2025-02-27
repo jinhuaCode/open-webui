@@ -70,7 +70,11 @@ async def create_new_tools(
     user=Depends(get_verified_user),
 ):
     if user.role != "admin" and not has_permission(
+<<<<<<< HEAD
         user.id, "workspace.tools", request.app.state.config.USER_PERMISSIONS
+=======
+        user.id, "workspace.knowledge", request.app.state.config.USER_PERMISSIONS
+>>>>>>> dfef03c8e (同步远程)
     ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -165,12 +169,16 @@ async def update_tools_by_id(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     # Is the user the original creator, in a group with write access, or an admin
     if (
         tools.user_id != user.id
         and not has_access(user.id, "write", tools.access_control)
         and user.role != "admin"
     ):
+=======
+    if tools.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.UNAUTHORIZED,
@@ -227,11 +235,15 @@ async def delete_tools_by_id(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         tools.user_id != user.id
         and not has_access(user.id, "write", tools.access_control)
         and user.role != "admin"
     ):
+=======
+    if tools.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.UNAUTHORIZED,
@@ -313,6 +325,7 @@ async def update_tools_valves_by_id(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
+<<<<<<< HEAD
 
     if (
         tools.user_id != user.id
@@ -324,6 +337,8 @@ async def update_tools_valves_by_id(
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
         )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     if id in request.app.state.TOOLS:
         tools_module = request.app.state.TOOLS[id]
     else:

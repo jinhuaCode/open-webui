@@ -6,6 +6,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 SET "SCRIPT_DIR=%~dp0"
 cd /d "%SCRIPT_DIR%" || exit /b
 
+<<<<<<< HEAD
 :: Add conditional Playwright browser installation
 IF /I "%RAG_WEB_LOADER_ENGINE%" == "playwright" (
     IF "%PLAYWRIGHT_WS_URI%" == "" (
@@ -20,6 +21,13 @@ IF /I "%RAG_WEB_LOADER_ENGINE%" == "playwright" (
 SET "KEY_FILE=.webui_secret_key"
 IF "%PORT%"=="" SET PORT=8080
 IF "%HOST%"=="" SET HOST=0.0.0.0
+=======
+SET "KEY_FILE=.webui_secret_key"
+IF "%PORT%"=="" SET PORT=8080
+::IF "%HOST%"=="" SET HOST=143.64.120.39
+IF "%HOST%"=="" SET HOST=0.0.0.0
+
+>>>>>>> dfef03c8e (同步远程)
 SET "WEBUI_SECRET_KEY=%WEBUI_SECRET_KEY%"
 SET "WEBUI_JWT_SECRET_KEY=%WEBUI_JWT_SECRET_KEY%"
 

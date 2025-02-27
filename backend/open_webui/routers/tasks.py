@@ -4,13 +4,19 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel
 from typing import Optional
 import logging
+<<<<<<< HEAD
 import re
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 from open_webui.utils.chat import generate_chat_completion
 from open_webui.utils.task import (
     title_generation_template,
     query_generation_template,
+<<<<<<< HEAD
     image_prompt_generation_template,
+=======
+>>>>>>> dfef03c8e (同步远程)
     autocomplete_generation_template,
     tags_generation_template,
     emoji_generation_template,
@@ -25,7 +31,10 @@ from open_webui.utils.task import get_task_model_id
 from open_webui.config import (
     DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE,
     DEFAULT_TAGS_GENERATION_PROMPT_TEMPLATE,
+<<<<<<< HEAD
     DEFAULT_IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE,
+=======
+>>>>>>> dfef03c8e (同步远程)
     DEFAULT_QUERY_GENERATION_PROMPT_TEMPLATE,
     DEFAULT_AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE,
     DEFAULT_EMOJI_GENERATION_PROMPT_TEMPLATE,
@@ -53,12 +62,18 @@ async def get_task_config(request: Request, user=Depends(get_verified_user)):
         "TASK_MODEL": request.app.state.config.TASK_MODEL,
         "TASK_MODEL_EXTERNAL": request.app.state.config.TASK_MODEL_EXTERNAL,
         "TITLE_GENERATION_PROMPT_TEMPLATE": request.app.state.config.TITLE_GENERATION_PROMPT_TEMPLATE,
+<<<<<<< HEAD
         "IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE": request.app.state.config.IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE,
+=======
+>>>>>>> dfef03c8e (同步远程)
         "ENABLE_AUTOCOMPLETE_GENERATION": request.app.state.config.ENABLE_AUTOCOMPLETE_GENERATION,
         "AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH": request.app.state.config.AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH,
         "TAGS_GENERATION_PROMPT_TEMPLATE": request.app.state.config.TAGS_GENERATION_PROMPT_TEMPLATE,
         "ENABLE_TAGS_GENERATION": request.app.state.config.ENABLE_TAGS_GENERATION,
+<<<<<<< HEAD
         "ENABLE_TITLE_GENERATION": request.app.state.config.ENABLE_TITLE_GENERATION,
+=======
+>>>>>>> dfef03c8e (同步远程)
         "ENABLE_SEARCH_QUERY_GENERATION": request.app.state.config.ENABLE_SEARCH_QUERY_GENERATION,
         "ENABLE_RETRIEVAL_QUERY_GENERATION": request.app.state.config.ENABLE_RETRIEVAL_QUERY_GENERATION,
         "QUERY_GENERATION_PROMPT_TEMPLATE": request.app.state.config.QUERY_GENERATION_PROMPT_TEMPLATE,
@@ -69,9 +84,13 @@ async def get_task_config(request: Request, user=Depends(get_verified_user)):
 class TaskConfigForm(BaseModel):
     TASK_MODEL: Optional[str]
     TASK_MODEL_EXTERNAL: Optional[str]
+<<<<<<< HEAD
     ENABLE_TITLE_GENERATION: bool
     TITLE_GENERATION_PROMPT_TEMPLATE: str
     IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE: str
+=======
+    TITLE_GENERATION_PROMPT_TEMPLATE: str
+>>>>>>> dfef03c8e (同步远程)
     ENABLE_AUTOCOMPLETE_GENERATION: bool
     AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH: int
     TAGS_GENERATION_PROMPT_TEMPLATE: str
@@ -88,15 +107,21 @@ async def update_task_config(
 ):
     request.app.state.config.TASK_MODEL = form_data.TASK_MODEL
     request.app.state.config.TASK_MODEL_EXTERNAL = form_data.TASK_MODEL_EXTERNAL
+<<<<<<< HEAD
     request.app.state.config.ENABLE_TITLE_GENERATION = form_data.ENABLE_TITLE_GENERATION
+=======
+>>>>>>> dfef03c8e (同步远程)
     request.app.state.config.TITLE_GENERATION_PROMPT_TEMPLATE = (
         form_data.TITLE_GENERATION_PROMPT_TEMPLATE
     )
 
+<<<<<<< HEAD
     request.app.state.config.IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE = (
         form_data.IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE
     )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     request.app.state.config.ENABLE_AUTOCOMPLETE_GENERATION = (
         form_data.ENABLE_AUTOCOMPLETE_GENERATION
     )
@@ -125,9 +150,13 @@ async def update_task_config(
     return {
         "TASK_MODEL": request.app.state.config.TASK_MODEL,
         "TASK_MODEL_EXTERNAL": request.app.state.config.TASK_MODEL_EXTERNAL,
+<<<<<<< HEAD
         "ENABLE_TITLE_GENERATION": request.app.state.config.ENABLE_TITLE_GENERATION,
         "TITLE_GENERATION_PROMPT_TEMPLATE": request.app.state.config.TITLE_GENERATION_PROMPT_TEMPLATE,
         "IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE": request.app.state.config.IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE,
+=======
+        "TITLE_GENERATION_PROMPT_TEMPLATE": request.app.state.config.TITLE_GENERATION_PROMPT_TEMPLATE,
+>>>>>>> dfef03c8e (同步远程)
         "ENABLE_AUTOCOMPLETE_GENERATION": request.app.state.config.ENABLE_AUTOCOMPLETE_GENERATION,
         "AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH": request.app.state.config.AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH,
         "TAGS_GENERATION_PROMPT_TEMPLATE": request.app.state.config.TAGS_GENERATION_PROMPT_TEMPLATE,
@@ -143,6 +172,7 @@ async def update_task_config(
 async def generate_title(
     request: Request, form_data: dict, user=Depends(get_verified_user)
 ):
+<<<<<<< HEAD
 
     if not request.app.state.config.ENABLE_TITLE_GENERATION:
         return JSONResponse(
@@ -156,6 +186,9 @@ async def generate_title(
         }
     else:
         models = request.app.state.MODELS
+=======
+    models = request.app.state.MODELS
+>>>>>>> dfef03c8e (同步远程)
 
     model_id = form_data["model"]
     if model_id not in models:
@@ -182,6 +215,7 @@ async def generate_title(
     else:
         template = DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE
 
+<<<<<<< HEAD
     messages = form_data["messages"]
 
     # Remove reasoning details from the messages
@@ -196,6 +230,11 @@ async def generate_title(
     content = title_generation_template(
         template,
         messages,
+=======
+    content = title_generation_template(
+        template,
+        form_data["messages"],
+>>>>>>> dfef03c8e (同步远程)
         {
             "name": user.name,
             "location": user.info.get("location") if user.info else None,
@@ -207,6 +246,7 @@ async def generate_title(
         "messages": [{"role": "user", "content": content}],
         "stream": False,
         **(
+<<<<<<< HEAD
             {"max_tokens": 1000}
             if models[task_model_id].get("owned_by") == "ollama"
             else {
@@ -215,6 +255,15 @@ async def generate_title(
         ),
         "metadata": {
             **(request.state.metadata if hasattr(request.state, "metadata") else {}),
+=======
+            {"max_tokens": 50}
+            if models[task_model_id]["owned_by"] == "ollama"
+            else {
+                "max_completion_tokens": 50,
+            }
+        ),
+        "metadata": {
+>>>>>>> dfef03c8e (同步远程)
             "task": str(TASKS.TITLE_GENERATION),
             "task_body": form_data,
             "chat_id": form_data.get("chat_id", None),
@@ -242,12 +291,16 @@ async def generate_chat_tags(
             content={"detail": "Tags generation is disabled"},
         )
 
+<<<<<<< HEAD
     if getattr(request.state, "direct", False) and hasattr(request.state, "model"):
         models = {
             request.state.model["id"]: request.state.model,
         }
     else:
         models = request.app.state.MODELS
+=======
+    models = request.app.state.MODELS
+>>>>>>> dfef03c8e (同步远程)
 
     model_id = form_data["model"]
     if model_id not in models:
@@ -283,7 +336,10 @@ async def generate_chat_tags(
         "messages": [{"role": "user", "content": content}],
         "stream": False,
         "metadata": {
+<<<<<<< HEAD
             **(request.state.metadata if hasattr(request.state, "metadata") else {}),
+=======
+>>>>>>> dfef03c8e (同步远程)
             "task": str(TASKS.TAGS_GENERATION),
             "task_body": form_data,
             "chat_id": form_data.get("chat_id", None),
@@ -300,6 +356,7 @@ async def generate_chat_tags(
         )
 
 
+<<<<<<< HEAD
 @router.post("/image_prompt/completions")
 async def generate_image_prompt(
     request: Request, form_data: dict, user=Depends(get_verified_user)
@@ -366,6 +423,8 @@ async def generate_image_prompt(
         )
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 @router.post("/queries/completions")
 async def generate_queries(
     request: Request, form_data: dict, user=Depends(get_verified_user)
@@ -385,12 +444,16 @@ async def generate_queries(
                 detail=f"Query generation is disabled",
             )
 
+<<<<<<< HEAD
     if getattr(request.state, "direct", False) and hasattr(request.state, "model"):
         models = {
             request.state.model["id"]: request.state.model,
         }
     else:
         models = request.app.state.MODELS
+=======
+    models = request.app.state.MODELS
+>>>>>>> dfef03c8e (同步远程)
 
     model_id = form_data["model"]
     if model_id not in models:
@@ -426,7 +489,10 @@ async def generate_queries(
         "messages": [{"role": "user", "content": content}],
         "stream": False,
         "metadata": {
+<<<<<<< HEAD
             **(request.state.metadata if hasattr(request.state, "metadata") else {}),
+=======
+>>>>>>> dfef03c8e (同步远程)
             "task": str(TASKS.QUERY_GENERATION),
             "task_body": form_data,
             "chat_id": form_data.get("chat_id", None),
@@ -466,12 +532,16 @@ async def generate_autocompletion(
                 detail=f"Input prompt exceeds maximum length of {request.app.state.config.AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH}",
             )
 
+<<<<<<< HEAD
     if getattr(request.state, "direct", False) and hasattr(request.state, "model"):
         models = {
             request.state.model["id"]: request.state.model,
         }
     else:
         models = request.app.state.MODELS
+=======
+    models = request.app.state.MODELS
+>>>>>>> dfef03c8e (同步远程)
 
     model_id = form_data["model"]
     if model_id not in models:
@@ -507,7 +577,10 @@ async def generate_autocompletion(
         "messages": [{"role": "user", "content": content}],
         "stream": False,
         "metadata": {
+<<<<<<< HEAD
             **(request.state.metadata if hasattr(request.state, "metadata") else {}),
+=======
+>>>>>>> dfef03c8e (同步远程)
             "task": str(TASKS.AUTOCOMPLETE_GENERATION),
             "task_body": form_data,
             "chat_id": form_data.get("chat_id", None),
@@ -529,12 +602,16 @@ async def generate_emoji(
     request: Request, form_data: dict, user=Depends(get_verified_user)
 ):
 
+<<<<<<< HEAD
     if getattr(request.state, "direct", False) and hasattr(request.state, "model"):
         models = {
             request.state.model["id"]: request.state.model,
         }
     else:
         models = request.app.state.MODELS
+=======
+    models = request.app.state.MODELS
+>>>>>>> dfef03c8e (同步远程)
 
     model_id = form_data["model"]
     if model_id not in models:
@@ -571,17 +648,25 @@ async def generate_emoji(
         "stream": False,
         **(
             {"max_tokens": 4}
+<<<<<<< HEAD
             if models[task_model_id].get("owned_by") == "ollama"
+=======
+            if models[task_model_id]["owned_by"] == "ollama"
+>>>>>>> dfef03c8e (同步远程)
             else {
                 "max_completion_tokens": 4,
             }
         ),
         "chat_id": form_data.get("chat_id", None),
+<<<<<<< HEAD
         "metadata": {
             **(request.state.metadata if hasattr(request.state, "metadata") else {}),
             "task": str(TASKS.EMOJI_GENERATION),
             "task_body": form_data,
         },
+=======
+        "metadata": {"task": str(TASKS.EMOJI_GENERATION), "task_body": form_data},
+>>>>>>> dfef03c8e (同步远程)
     }
 
     try:
@@ -598,6 +683,7 @@ async def generate_moa_response(
     request: Request, form_data: dict, user=Depends(get_verified_user)
 ):
 
+<<<<<<< HEAD
     if getattr(request.state, "direct", False) and hasattr(request.state, "model"):
         models = {
             request.state.model["id"]: request.state.model,
@@ -605,6 +691,9 @@ async def generate_moa_response(
     else:
         models = request.app.state.MODELS
 
+=======
+    models = request.app.state.MODELS
+>>>>>>> dfef03c8e (同步远程)
     model_id = form_data["model"]
 
     if model_id not in models:
@@ -636,9 +725,14 @@ async def generate_moa_response(
         "model": task_model_id,
         "messages": [{"role": "user", "content": content}],
         "stream": form_data.get("stream", False),
+<<<<<<< HEAD
         "metadata": {
             **(request.state.metadata if hasattr(request.state, "metadata") else {}),
             "chat_id": form_data.get("chat_id", None),
+=======
+        "chat_id": form_data.get("chat_id", None),
+        "metadata": {
+>>>>>>> dfef03c8e (同步远程)
             "task": str(TASKS.MOA_RESPONSE_GENERATION),
             "task_body": form_data,
         },

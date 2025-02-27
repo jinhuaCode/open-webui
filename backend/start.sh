@@ -3,6 +3,7 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd "$SCRIPT_DIR" || exit
 
+<<<<<<< HEAD
 # Add conditional Playwright browser installation
 if [[ "${RAG_WEB_LOADER_ENGINE,,}" == "playwright" ]]; then
     if [[ -z "${PLAYWRIGHT_WS_URI}" ]]; then
@@ -14,6 +15,8 @@ if [[ "${RAG_WEB_LOADER_ENGINE,,}" == "playwright" ]]; then
     python -c "import nltk; nltk.download('punkt_tab')"
 fi
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 KEY_FILE=.webui_secret_key
 
 PORT="${PORT:-8080}"

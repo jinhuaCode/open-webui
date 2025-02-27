@@ -37,6 +37,7 @@ async def export_config(user=Depends(get_admin_user)):
 
 
 ############################
+<<<<<<< HEAD
 # Direct Connections Config
 ############################
 
@@ -171,6 +172,8 @@ async def set_code_execution_config(
 
 
 ############################
+=======
+>>>>>>> dfef03c8e (同步远程)
 # SetDefaultModels
 ############################
 class ModelsConfigForm(BaseModel):

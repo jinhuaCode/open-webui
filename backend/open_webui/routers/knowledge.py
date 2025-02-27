@@ -17,7 +17,11 @@ from open_webui.routers.retrieval import (
     process_files_batch,
     BatchProcessFilesForm,
 )
+<<<<<<< HEAD
 from open_webui.storage.provider import Storage
+=======
+
+>>>>>>> dfef03c8e (同步远程)
 
 from open_webui.constants import ERROR_MESSAGES
 from open_webui.utils.auth import get_verified_user
@@ -25,7 +29,10 @@ from open_webui.utils.access_control import has_access, has_permission
 
 
 from open_webui.env import SRC_LOG_LEVELS
+<<<<<<< HEAD
 from open_webui.models.models import Models, ModelForm
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 
 log = logging.getLogger(__name__)
@@ -213,12 +220,17 @@ async def update_knowledge_by_id(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
+<<<<<<< HEAD
     # Is the user the original creator, in a group with write access, or an admin
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
+=======
+
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -264,11 +276,15 @@ def add_file_to_knowledge_by_id(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
+=======
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -289,9 +305,13 @@ def add_file_to_knowledge_by_id(
     # Add content to the vector database
     try:
         process_file(
+<<<<<<< HEAD
             request,
             ProcessFileForm(file_id=form_data.file_id, collection_name=id),
             user=user,
+=======
+            request, ProcessFileForm(file_id=form_data.file_id, collection_name=id)
+>>>>>>> dfef03c8e (同步远程)
         )
     except Exception as e:
         log.debug(e)
@@ -348,12 +368,16 @@ def update_file_from_knowledge_by_id(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
 
+=======
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -374,9 +398,13 @@ def update_file_from_knowledge_by_id(
     # Add content to the vector database
     try:
         process_file(
+<<<<<<< HEAD
             request,
             ProcessFileForm(file_id=form_data.file_id, collection_name=id),
             user=user,
+=======
+            request, ProcessFileForm(file_id=form_data.file_id, collection_name=id)
+>>>>>>> dfef03c8e (同步远程)
         )
     except Exception as e:
         raise HTTPException(
@@ -419,11 +447,15 @@ def remove_file_from_knowledge_by_id(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
+=======
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -441,12 +473,20 @@ def remove_file_from_knowledge_by_id(
         collection_name=knowledge.id, filter={"file_id": form_data.file_id}
     )
 
+<<<<<<< HEAD
     # Remove the file's collection from vector database
     file_collection = f"file-{form_data.file_id}"
     if VECTOR_DB_CLIENT.has_collection(collection_name=file_collection):
         VECTOR_DB_CLIENT.delete_collection(collection_name=file_collection)
 
     # Delete file from database
+=======
+    result = VECTOR_DB_CLIENT.query(
+        collection_name=knowledge.id,
+        filter={"file_id": form_data.file_id},
+    )
+
+>>>>>>> dfef03c8e (同步远程)
     Files.delete_file_by_id(form_data.file_id)
 
     if knowledge:
@@ -497,16 +537,21 @@ async def delete_knowledge_by_id(id: str, user=Depends(get_verified_user)):
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
+=======
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
         )
 
+<<<<<<< HEAD
     log.info(f"Deleting knowledge base: {id} (name: {knowledge.name})")
 
     # Get all models
@@ -537,6 +582,8 @@ async def delete_knowledge_by_id(id: str, user=Depends(get_verified_user)):
                 Models.update_model_by_id(model.id, model_form)
 
     # Clean up vector DB
+=======
+>>>>>>> dfef03c8e (同步远程)
     try:
         VECTOR_DB_CLIENT.delete_collection(collection_name=id)
     except Exception as e:
@@ -560,11 +607,15 @@ async def reset_knowledge_by_id(id: str, user=Depends(get_verified_user)):
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
+=======
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -588,7 +639,10 @@ async def reset_knowledge_by_id(id: str, user=Depends(get_verified_user)):
 
 @router.post("/{id}/files/batch/add", response_model=Optional[KnowledgeFilesResponse])
 def add_files_to_knowledge_batch(
+<<<<<<< HEAD
     request: Request,
+=======
+>>>>>>> dfef03c8e (同步远程)
     id: str,
     form_data: list[KnowledgeFileIdForm],
     user=Depends(get_verified_user),
@@ -603,11 +657,15 @@ def add_files_to_knowledge_batch(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         knowledge.user_id != user.id
         and not has_access(user.id, "write", knowledge.access_control)
         and user.role != "admin"
     ):
+=======
+    if knowledge.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -628,9 +686,13 @@ def add_files_to_knowledge_batch(
     # Process files
     try:
         result = process_files_batch(
+<<<<<<< HEAD
             request=request,
             form_data=BatchProcessFilesForm(files=files, collection_name=id),
             user=user,
+=======
+            BatchProcessFilesForm(files=files, collection_name=id)
+>>>>>>> dfef03c8e (同步远程)
         )
     except Exception as e:
         log.error(

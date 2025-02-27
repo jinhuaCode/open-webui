@@ -17,12 +17,16 @@ def search_google_pse(
     filter_list: Optional[list[str]] = None,
 ) -> list[SearchResult]:
     """Search using Google's Programmable Search Engine API and return the results as a list of SearchResult objects.
+<<<<<<< HEAD
     Handles pagination for counts greater than 10.
+=======
+>>>>>>> dfef03c8e (同步远程)
 
     Args:
         api_key (str): A Programmable Search Engine API key
         search_engine_id (str): A Programmable Search Engine ID
         query (str): The query to search for
+<<<<<<< HEAD
         count (int): The number of results to return (max 100, as PSE max results per query is 10 and max page is 10)
         filter_list (Optional[list[str]], optional): A list of keywords to filter out from results. Defaults to None.
 
@@ -59,11 +63,35 @@ def search_google_pse(
     if filter_list:
         all_results = get_filtered_results(all_results, filter_list)
 
+=======
+    """
+    url = "https://www.googleapis.com/customsearch/v1"
+
+    headers = {"Content-Type": "application/json"}
+    params = {
+        "cx": search_engine_id,
+        "q": query,
+        "key": api_key,
+        "num": count,
+    }
+
+    response = requests.request("GET", url, headers=headers, params=params)
+    response.raise_for_status()
+
+    json_response = response.json()
+    results = json_response.get("items", [])
+    if filter_list:
+        results = get_filtered_results(results, filter_list)
+>>>>>>> dfef03c8e (同步远程)
     return [
         SearchResult(
             link=result["link"],
             title=result.get("title"),
             snippet=result.get("snippet"),
         )
+<<<<<<< HEAD
         for result in all_results
+=======
+        for result in results
+>>>>>>> dfef03c8e (同步远程)
     ]

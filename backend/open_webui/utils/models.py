@@ -142,7 +142,11 @@ async def get_all_models(request):
                     custom_model.base_model_id == model["id"]
                     or custom_model.base_model_id == model["id"].split(":")[0]
                 ):
+<<<<<<< HEAD
                     owned_by = model.get("owned_by", "unknown owner")
+=======
+                    owned_by = model["owned_by"]
+>>>>>>> dfef03c8e (同步远程)
                     if "pipe" in model:
                         pipe = model["pipe"]
                     break

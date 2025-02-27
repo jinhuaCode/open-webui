@@ -112,12 +112,16 @@ async def update_prompt_by_command(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     # Is the user the original creator, in a group with write access, or an admin
     if (
         prompt.user_id != user.id
         and not has_access(user.id, "write", prompt.access_control)
         and user.role != "admin"
     ):
+=======
+    if prompt.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
@@ -147,11 +151,15 @@ async def delete_prompt_by_command(command: str, user=Depends(get_verified_user)
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         prompt.user_id != user.id
         and not has_access(user.id, "write", prompt.access_control)
         and user.role != "admin"
     ):
+=======
+    if prompt.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,

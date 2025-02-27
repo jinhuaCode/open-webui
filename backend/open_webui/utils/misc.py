@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Callable, Optional
 
 
+<<<<<<< HEAD
 import collections.abc
 
 
@@ -19,6 +20,8 @@ def deep_update(d, u):
     return d
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def get_message_list(messages, message_id):
     """
     Reconstructs a list of messages in order up to the specified message_id.
@@ -32,7 +35,11 @@ def get_message_list(messages, message_id):
     current_message = messages.get(message_id)
 
     if not current_message:
+<<<<<<< HEAD
         return None
+=======
+        return f"Message ID {message_id} not found in the history."
+>>>>>>> dfef03c8e (同步远程)
 
     # Reconstruct the chain by following the parentId links
     message_list = []
@@ -143,6 +150,7 @@ def add_or_update_system_message(content: str, messages: list[dict]):
     return messages
 
 
+<<<<<<< HEAD
 def add_or_update_user_message(content: str, messages: list[dict]):
     """
     Adds a new user message at the end of the messages list
@@ -181,6 +189,8 @@ def append_or_update_assistant_message(content: str, messages: list[dict]):
     return messages
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def openai_chat_message_template(model: str):
     return {
         "id": f"{model}-{str(uuid.uuid4())}",
@@ -191,6 +201,7 @@ def openai_chat_message_template(model: str):
 
 
 def openai_chat_chunk_message_template(
+<<<<<<< HEAD
     model: str,
     content: Optional[str] = None,
     tool_calls: Optional[list[dict]] = None,
@@ -209,6 +220,15 @@ def openai_chat_chunk_message_template(
         template["choices"][0]["delta"]["tool_calls"] = tool_calls
 
     if not content and not tool_calls:
+=======
+    model: str, message: Optional[str] = None, usage: Optional[dict] = None
+) -> dict:
+    template = openai_chat_message_template(model)
+    template["object"] = "chat.completion.chunk"
+    if message:
+        template["choices"][0]["delta"] = {"content": message}
+    else:
+>>>>>>> dfef03c8e (同步远程)
         template["choices"][0]["finish_reason"] = "stop"
 
     if usage:
@@ -217,20 +237,28 @@ def openai_chat_chunk_message_template(
 
 
 def openai_chat_completion_message_template(
+<<<<<<< HEAD
     model: str,
     message: Optional[str] = None,
     tool_calls: Optional[list[dict]] = None,
     usage: Optional[dict] = None,
+=======
+    model: str, message: Optional[str] = None, usage: Optional[dict] = None
+>>>>>>> dfef03c8e (同步远程)
 ) -> dict:
     template = openai_chat_message_template(model)
     template["object"] = "chat.completion"
     if message is not None:
+<<<<<<< HEAD
         template["choices"][0]["message"] = {
             "content": message,
             "role": "assistant",
             **({"tool_calls": tool_calls} if tool_calls else {}),
         }
 
+=======
+        template["choices"][0]["message"] = {"content": message, "role": "assistant"}
+>>>>>>> dfef03c8e (同步远程)
     template["choices"][0]["finish_reason"] = "stop"
 
     if usage:
@@ -252,12 +280,20 @@ def get_gravatar_url(email):
     return f"https://www.gravatar.com/avatar/{hash_hex}?d=mp"
 
 
+<<<<<<< HEAD
 def calculate_sha256(file_path, chunk_size):
     # Compute SHA-256 hash of a file efficiently in chunks
     sha256 = hashlib.sha256()
     with open(file_path, "rb") as f:
         while chunk := f.read(chunk_size):
             sha256.update(chunk)
+=======
+def calculate_sha256(file):
+    sha256 = hashlib.sha256()
+    # Read the file in chunks to efficiently handle large files
+    for chunk in iter(lambda: file.read(8192), b""):
+        sha256.update(chunk)
+>>>>>>> dfef03c8e (同步远程)
     return sha256.hexdigest()
 
 

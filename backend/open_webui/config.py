@@ -2,8 +2,11 @@ import json
 import logging
 import os
 import shutil
+<<<<<<< HEAD
 import base64
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 from datetime import datetime
 from pathlib import Path
 from typing import Generic, Optional, TypeVar
@@ -11,6 +14,7 @@ from urllib.parse import urlparse
 
 import chromadb
 import requests
+<<<<<<< HEAD
 from pydantic import BaseModel
 from sqlalchemy import JSON, Column, DateTime, Integer, func
 
@@ -21,12 +25,29 @@ from open_webui.env import (
     FRONTEND_BUILD_DIR,
     OFFLINE_MODE,
     OPEN_WEBUI_DIR,
+=======
+import yaml
+from open_webui.internal.db import Base, get_db
+from open_webui.env import (
+    OPEN_WEBUI_DIR,
+    DATA_DIR,
+    ENV,
+    FRONTEND_BUILD_DIR,
+>>>>>>> dfef03c8e (同步远程)
     WEBUI_AUTH,
     WEBUI_FAVICON_URL,
     WEBUI_NAME,
     log,
+<<<<<<< HEAD
 )
 from open_webui.internal.db import Base, get_db
+=======
+    DATABASE_URL,
+    OFFLINE_MODE,
+)
+from pydantic import BaseModel
+from sqlalchemy import JSON, Column, DateTime, Integer, func
+>>>>>>> dfef03c8e (同步远程)
 
 
 class EndpointFilter(logging.Filter):
@@ -364,6 +385,7 @@ MICROSOFT_REDIRECT_URI = PersistentConfig(
     os.environ.get("MICROSOFT_REDIRECT_URI", ""),
 )
 
+<<<<<<< HEAD
 GITHUB_CLIENT_ID = PersistentConfig(
     "GITHUB_CLIENT_ID",
     "oauth.github.client_id",
@@ -388,6 +410,8 @@ GITHUB_CLIENT_REDIRECT_URI = PersistentConfig(
     os.environ.get("GITHUB_CLIENT_REDIRECT_URI", ""),
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 OAUTH_CLIENT_ID = PersistentConfig(
     "OAUTH_CLIENT_ID",
     "oauth.oidc.client_id",
@@ -494,6 +518,7 @@ OAUTH_ALLOWED_DOMAINS = PersistentConfig(
 def load_oauth_providers():
     OAUTH_PROVIDERS.clear()
     if GOOGLE_CLIENT_ID.value and GOOGLE_CLIENT_SECRET.value:
+<<<<<<< HEAD
 
         def google_oauth_register(client):
             client.register(
@@ -508,6 +533,14 @@ def load_oauth_providers():
         OAUTH_PROVIDERS["google"] = {
             "redirect_uri": GOOGLE_REDIRECT_URI.value,
             "register": google_oauth_register,
+=======
+        OAUTH_PROVIDERS["google"] = {
+            "client_id": GOOGLE_CLIENT_ID.value,
+            "client_secret": GOOGLE_CLIENT_SECRET.value,
+            "server_metadata_url": "https://accounts.google.com/.well-known/openid-configuration",
+            "scope": GOOGLE_OAUTH_SCOPE.value,
+            "redirect_uri": GOOGLE_REDIRECT_URI.value,
+>>>>>>> dfef03c8e (同步远程)
         }
 
     if (
@@ -515,6 +548,7 @@ def load_oauth_providers():
         and MICROSOFT_CLIENT_SECRET.value
         and MICROSOFT_CLIENT_TENANT_ID.value
     ):
+<<<<<<< HEAD
 
         def microsoft_oauth_register(client):
             client.register(
@@ -553,6 +587,14 @@ def load_oauth_providers():
             "redirect_uri": GITHUB_CLIENT_REDIRECT_URI.value,
             "register": github_oauth_register,
             "sub_claim": "id",
+=======
+        OAUTH_PROVIDERS["microsoft"] = {
+            "client_id": MICROSOFT_CLIENT_ID.value,
+            "client_secret": MICROSOFT_CLIENT_SECRET.value,
+            "server_metadata_url": f"https://login.microsoftonline.com/{MICROSOFT_CLIENT_TENANT_ID.value}/v2.0/.well-known/openid-configuration",
+            "scope": MICROSOFT_OAUTH_SCOPE.value,
+            "redirect_uri": MICROSOFT_REDIRECT_URI.value,
+>>>>>>> dfef03c8e (同步远程)
         }
 
     if (
@@ -560,6 +602,7 @@ def load_oauth_providers():
         and OAUTH_CLIENT_SECRET.value
         and OPENID_PROVIDER_URL.value
     ):
+<<<<<<< HEAD
 
         def oidc_oauth_register(client):
             client.register(
@@ -577,6 +620,15 @@ def load_oauth_providers():
             "name": OAUTH_PROVIDER_NAME.value,
             "redirect_uri": OPENID_REDIRECT_URI.value,
             "register": oidc_oauth_register,
+=======
+        OAUTH_PROVIDERS["oidc"] = {
+            "client_id": OAUTH_CLIENT_ID.value,
+            "client_secret": OAUTH_CLIENT_SECRET.value,
+            "server_metadata_url": OPENID_PROVIDER_URL.value,
+            "scope": OAUTH_SCOPES.value,
+            "name": OAUTH_PROVIDER_NAME.value,
+            "redirect_uri": OPENID_REDIRECT_URI.value,
+>>>>>>> dfef03c8e (同步远程)
         }
 
 
@@ -595,6 +647,11 @@ if frontend_favicon.exists():
         shutil.copyfile(frontend_favicon, STATIC_DIR / "favicon.png")
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+<<<<<<< HEAD
+=======
+else:
+    logging.warning(f"Frontend favicon not found at {frontend_favicon}")
+>>>>>>> dfef03c8e (同步远程)
 
 frontend_splash = FRONTEND_BUILD_DIR / "static" / "splash.png"
 
@@ -603,6 +660,7 @@ if frontend_splash.exists():
         shutil.copyfile(frontend_splash, STATIC_DIR / "splash.png")
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+<<<<<<< HEAD
 
 frontend_loader = FRONTEND_BUILD_DIR / "static" / "loader.js"
 
@@ -615,6 +673,14 @@ if frontend_loader.exists():
 
 ####################################
 # CUSTOM_NAME (Legacy)
+=======
+else:
+    logging.warning(f"Frontend splash not found at {frontend_splash}")
+
+
+####################################
+# CUSTOM_NAME
+>>>>>>> dfef03c8e (同步远程)
 ####################################
 
 CUSTOM_NAME = os.environ.get("CUSTOM_NAME", "")
@@ -657,6 +723,7 @@ if CUSTOM_NAME:
 
 
 ####################################
+<<<<<<< HEAD
 # LICENSE_KEY
 ####################################
 
@@ -671,11 +738,18 @@ LICENSE_KEY = PersistentConfig(
 ####################################
 
 STORAGE_PROVIDER = os.environ.get("STORAGE_PROVIDER", "local")  # defaults to local, s3
+=======
+# STORAGE PROVIDER
+####################################
+
+STORAGE_PROVIDER = os.environ.get("STORAGE_PROVIDER", "")  # defaults to local, s3
+>>>>>>> dfef03c8e (同步远程)
 
 S3_ACCESS_KEY_ID = os.environ.get("S3_ACCESS_KEY_ID", None)
 S3_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_ACCESS_KEY", None)
 S3_REGION_NAME = os.environ.get("S3_REGION_NAME", None)
 S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME", None)
+<<<<<<< HEAD
 S3_KEY_PREFIX = os.environ.get("S3_KEY_PREFIX", None)
 S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL", None)
 
@@ -688,6 +762,10 @@ AZURE_STORAGE_ENDPOINT = os.environ.get("AZURE_STORAGE_ENDPOINT", None)
 AZURE_STORAGE_CONTAINER_NAME = os.environ.get("AZURE_STORAGE_CONTAINER_NAME", None)
 AZURE_STORAGE_KEY = os.environ.get("AZURE_STORAGE_KEY", None)
 
+=======
+S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL", None)
+
+>>>>>>> dfef03c8e (同步远程)
 ####################################
 # File Upload DIR
 ####################################
@@ -703,6 +781,7 @@ Path(UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
 CACHE_DIR = f"{DATA_DIR}/cache"
 Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
 
+<<<<<<< HEAD
 
 ####################################
 # DIRECT CONNECTIONS
@@ -714,6 +793,8 @@ ENABLE_DIRECT_CONNECTIONS = PersistentConfig(
     os.environ.get("ENABLE_DIRECT_CONNECTIONS", "True").lower() == "true",
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 ####################################
 # OLLAMA_BASE_URL
 ####################################
@@ -787,9 +868,12 @@ ENABLE_OPENAI_API = PersistentConfig(
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_API_BASE_URL = os.environ.get("OPENAI_API_BASE_URL", "")
 
+<<<<<<< HEAD
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 GEMINI_API_BASE_URL = os.environ.get("GEMINI_API_BASE_URL", "")
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 if OPENAI_API_BASE_URL == "":
     OPENAI_API_BASE_URL = "https://api.openai.com/v1"
@@ -933,10 +1017,13 @@ USER_PERMISSIONS_WORKSPACE_TOOLS_ACCESS = (
     os.environ.get("USER_PERMISSIONS_WORKSPACE_TOOLS_ACCESS", "False").lower() == "true"
 )
 
+<<<<<<< HEAD
 USER_PERMISSIONS_CHAT_CONTROLS = (
     os.environ.get("USER_PERMISSIONS_CHAT_CONTROLS", "True").lower() == "true"
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 USER_PERMISSIONS_CHAT_FILE_UPLOAD = (
     os.environ.get("USER_PERMISSIONS_CHAT_FILE_UPLOAD", "True").lower() == "true"
 )
@@ -953,6 +1040,7 @@ USER_PERMISSIONS_CHAT_TEMPORARY = (
     os.environ.get("USER_PERMISSIONS_CHAT_TEMPORARY", "True").lower() == "true"
 )
 
+<<<<<<< HEAD
 USER_PERMISSIONS_FEATURES_WEB_SEARCH = (
     os.environ.get("USER_PERMISSIONS_FEATURES_WEB_SEARCH", "True").lower() == "true"
 )
@@ -993,6 +1081,25 @@ USER_PERMISSIONS = PersistentConfig(
     "USER_PERMISSIONS",
     "user.permissions",
     DEFAULT_USER_PERMISSIONS,
+=======
+USER_PERMISSIONS = PersistentConfig(
+    "USER_PERMISSIONS",
+    "user.permissions",
+    {
+        "workspace": {
+            "models": USER_PERMISSIONS_WORKSPACE_MODELS_ACCESS,
+            "knowledge": USER_PERMISSIONS_WORKSPACE_KNOWLEDGE_ACCESS,
+            "prompts": USER_PERMISSIONS_WORKSPACE_PROMPTS_ACCESS,
+            "tools": USER_PERMISSIONS_WORKSPACE_TOOLS_ACCESS,
+        },
+        "chat": {
+            "file_upload": USER_PERMISSIONS_CHAT_FILE_UPLOAD,
+            "delete": USER_PERMISSIONS_CHAT_DELETE,
+            "edit": USER_PERMISSIONS_CHAT_EDIT,
+            "temporary": USER_PERMISSIONS_CHAT_TEMPORARY,
+        },
+    },
+>>>>>>> dfef03c8e (同步远程)
 )
 
 ENABLE_CHANNELS = PersistentConfig(
@@ -1136,6 +1243,7 @@ TITLE_GENERATION_PROMPT_TEMPLATE = PersistentConfig(
     os.environ.get("TITLE_GENERATION_PROMPT_TEMPLATE", ""),
 )
 
+<<<<<<< HEAD
 DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE = """### Task:
 Generate a concise, 3-5 word title with an emoji summarizing the chat history.
 ### Guidelines:
@@ -1153,10 +1261,26 @@ JSON format: { "title": "your concise title here" }
 - { "title": "Artificial Intelligence in Healthcare" },
 - { "title": "🎮 Video Game Development Insights" }
 ### Chat History:
+=======
+DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE = """Create a concise, 3-5 word title with an emoji as a title for the chat history, in the given language. Suitable Emojis for the summary can be used to enhance understanding but avoid quotation marks or special formatting. RESPOND ONLY WITH THE TITLE TEXT.
+
+Examples of titles:
+📉 Stock Market Trends
+🍪 Perfect Chocolate Chip Recipe
+Evolution of Music Streaming
+Remote Work Productivity Tips
+Artificial Intelligence in Healthcare
+🎮 Video Game Development Insights
+
+>>>>>>> dfef03c8e (同步远程)
 <chat_history>
 {{MESSAGES:END:2}}
 </chat_history>"""
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dfef03c8e (同步远程)
 TAGS_GENERATION_PROMPT_TEMPLATE = PersistentConfig(
     "TAGS_GENERATION_PROMPT_TEMPLATE",
     "task.tags.prompt_template",
@@ -1181,6 +1305,7 @@ JSON format: { "tags": ["tag1", "tag2", "tag3"] }
 {{MESSAGES:END:6}}
 </chat_history>"""
 
+<<<<<<< HEAD
 IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE = PersistentConfig(
     "IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE",
     "task.image.prompt_template",
@@ -1207,18 +1332,23 @@ Strictly return in JSON format:
 {{MESSAGES:END:6}}
 </chat_history>"""
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 ENABLE_TAGS_GENERATION = PersistentConfig(
     "ENABLE_TAGS_GENERATION",
     "task.tags.enable",
     os.environ.get("ENABLE_TAGS_GENERATION", "True").lower() == "true",
 )
 
+<<<<<<< HEAD
 ENABLE_TITLE_GENERATION = PersistentConfig(
     "ENABLE_TITLE_GENERATION",
     "task.title.enable",
     os.environ.get("ENABLE_TITLE_GENERATION", "True").lower() == "true",
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 ENABLE_SEARCH_QUERY_GENERATION = PersistentConfig(
     "ENABLE_SEARCH_QUERY_GENERATION",
@@ -1331,6 +1461,7 @@ TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE = PersistentConfig(
 )
 
 
+<<<<<<< HEAD
 DEFAULT_TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE = """Available Tools: {{TOOLS}}
 
 Your task is to choose and return the correct tool(s) from the list of available tools based on the query. Follow these guidelines:
@@ -1353,6 +1484,9 @@ The format for the JSON response is strictly:
     {"name": "toolName2", "parameters": {"key2": "value2"}}
   ]
 }"""
+=======
+DEFAULT_TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE = """Available Tools: {{TOOLS}}\nReturn an empty string if no tools match the query. If a function tool matches, construct and return a JSON object in the format {\"name\": \"functionName\", \"parameters\": {\"requiredFunctionParamKey\": \"requiredFunctionParamValue\"}} using the appropriate tool and its parameters. Only return the object and limit the response to the JSON object without additional text."""
+>>>>>>> dfef03c8e (同步远程)
 
 
 DEFAULT_EMOJI_GENERATION_PROMPT_TEMPLATE = """Your task is to reflect the speaker's likely facial expression through a fitting emoji. Interpret emotions from the message and reflect their facial expression using fitting, diverse emojis (e.g., 😊, 😢, 😡, 😱).
@@ -1365,6 +1499,7 @@ Your task is to synthesize these responses into a single, high-quality response.
 
 Responses from models: {{responses}}"""
 
+<<<<<<< HEAD
 
 ####################################
 # Code Interpreter
@@ -1490,6 +1625,8 @@ DEFAULT_CODE_INTERPRETER_PROMPT = """
 Ensure that the tools are effectively utilized to achieve the highest-quality analysis for the user."""
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 ####################################
 # Vector Database
 ####################################
@@ -1518,8 +1655,11 @@ CHROMA_HTTP_SSL = os.environ.get("CHROMA_HTTP_SSL", "false").lower() == "true"
 # Milvus
 
 MILVUS_URI = os.environ.get("MILVUS_URI", f"{DATA_DIR}/vector_db/milvus.db")
+<<<<<<< HEAD
 MILVUS_DB = os.environ.get("MILVUS_DB", "default")
 MILVUS_TOKEN = os.environ.get("MILVUS_TOKEN", None)
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 # Qdrant
 QDRANT_URI = os.environ.get("QDRANT_URI", None)
@@ -1538,9 +1678,12 @@ if VECTOR_DB == "pgvector" and not PGVECTOR_DB_URL.startswith("postgres"):
     raise ValueError(
         "Pgvector requires setting PGVECTOR_DB_URL or using Postgres with vector extension as the primary database."
     )
+<<<<<<< HEAD
 PGVECTOR_INITIALIZE_MAX_VECTOR_LENGTH = int(
     os.environ.get("PGVECTOR_INITIALIZE_MAX_VECTOR_LENGTH", "1536")
 )
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 ####################################
 # Information Retrieval (RAG)
@@ -1594,12 +1737,15 @@ ENABLE_RAG_HYBRID_SEARCH = PersistentConfig(
     os.environ.get("ENABLE_RAG_HYBRID_SEARCH", "").lower() == "true",
 )
 
+<<<<<<< HEAD
 RAG_FULL_CONTEXT = PersistentConfig(
     "RAG_FULL_CONTEXT",
     "rag.full_context",
     os.getenv("RAG_FULL_CONTEXT", "False").lower() == "true",
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 RAG_FILE_MAX_COUNT = PersistentConfig(
     "RAG_FILE_MAX_COUNT",
     "rag.file.max_count",
@@ -1714,7 +1860,11 @@ Respond to the user query using the provided context, incorporating inline citat
 - Respond in the same language as the user's query.
 - If the context is unreadable or of poor quality, inform the user and provide the best possible answer.
 - If the answer isn't present in the context but you possess the knowledge, explain this to the user and provide the answer using your own understanding.
+<<<<<<< HEAD
 - **Only include inline citations using [source_id] (e.g., [1], [2]) when a `<source_id>` tag is explicitly provided in the context.**
+=======
+- **Only include inline citations using [source_id] when a <source_id> tag is explicitly provided in the context.**  
+>>>>>>> dfef03c8e (同步远程)
 - Do not cite if the <source_id> tag is not provided in the context.  
 - Do not use XML tags in your response.
 - Ensure citations are concise and directly related to the information provided.
@@ -1795,17 +1945,24 @@ RAG_WEB_SEARCH_ENGINE = PersistentConfig(
     os.getenv("RAG_WEB_SEARCH_ENGINE", ""),
 )
 
+<<<<<<< HEAD
 RAG_WEB_SEARCH_FULL_CONTEXT = PersistentConfig(
     "RAG_WEB_SEARCH_FULL_CONTEXT",
     "rag.web.search.full_context",
     os.getenv("RAG_WEB_SEARCH_FULL_CONTEXT", "False").lower() == "true",
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 # You can provide a list of your own websites to filter after performing a web search.
 # This ensures the highest level of safety and reliability of the information sources.
 RAG_WEB_SEARCH_DOMAIN_FILTER_LIST = PersistentConfig(
     "RAG_WEB_SEARCH_DOMAIN_FILTER_LIST",
+<<<<<<< HEAD
     "rag.web.search.domain.filter_list",
+=======
+    "rag.rag.web.search.domain.filter_list",
+>>>>>>> dfef03c8e (同步远程)
     [
         # "wikipedia.com",
         # "wikimedia.org",
@@ -1850,12 +2007,15 @@ MOJEEK_SEARCH_API_KEY = PersistentConfig(
     os.getenv("MOJEEK_SEARCH_API_KEY", ""),
 )
 
+<<<<<<< HEAD
 BOCHA_SEARCH_API_KEY = PersistentConfig(
     "BOCHA_SEARCH_API_KEY",
     "rag.web.search.bocha_search_api_key",
     os.getenv("BOCHA_SEARCH_API_KEY", ""),
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 SERPSTACK_API_KEY = PersistentConfig(
     "SERPSTACK_API_KEY",
     "rag.web.search.serpstack_api_key",
@@ -1904,6 +2064,7 @@ SEARCHAPI_ENGINE = PersistentConfig(
     os.getenv("SEARCHAPI_ENGINE", ""),
 )
 
+<<<<<<< HEAD
 SERPAPI_API_KEY = PersistentConfig(
     "SERPAPI_API_KEY",
     "rag.web.search.serpapi_api_key",
@@ -1916,6 +2077,8 @@ SERPAPI_ENGINE = PersistentConfig(
     os.getenv("SERPAPI_ENGINE", ""),
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 BING_SEARCH_V7_ENDPOINT = PersistentConfig(
     "BING_SEARCH_V7_ENDPOINT",
     "rag.web.search.bing_search_v7_endpoint",
@@ -1930,11 +2093,14 @@ BING_SEARCH_V7_SUBSCRIPTION_KEY = PersistentConfig(
     os.environ.get("BING_SEARCH_V7_SUBSCRIPTION_KEY", ""),
 )
 
+<<<<<<< HEAD
 EXA_API_KEY = PersistentConfig(
     "EXA_API_KEY",
     "rag.web.search.exa_api_key",
     os.getenv("EXA_API_KEY", ""),
 )
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 RAG_WEB_SEARCH_RESULT_COUNT = PersistentConfig(
     "RAG_WEB_SEARCH_RESULT_COUNT",
@@ -1948,6 +2114,7 @@ RAG_WEB_SEARCH_CONCURRENT_REQUESTS = PersistentConfig(
     int(os.getenv("RAG_WEB_SEARCH_CONCURRENT_REQUESTS", "10")),
 )
 
+<<<<<<< HEAD
 RAG_WEB_LOADER_ENGINE = PersistentConfig(
     "RAG_WEB_LOADER_ENGINE",
     "rag.web.loader.engine",
@@ -1977,6 +2144,8 @@ FIRECRAWL_API_BASE_URL = PersistentConfig(
     "firecrawl.api_url",
     os.environ.get("FIRECRAWL_API_BASE_URL", "https://api.firecrawl.dev"),
 )
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 ####################################
 # Images
@@ -1993,6 +2162,7 @@ ENABLE_IMAGE_GENERATION = PersistentConfig(
     "image_generation.enable",
     os.environ.get("ENABLE_IMAGE_GENERATION", "").lower() == "true",
 )
+<<<<<<< HEAD
 
 ENABLE_IMAGE_PROMPT_GENERATION = PersistentConfig(
     "ENABLE_IMAGE_PROMPT_GENERATION",
@@ -2000,6 +2170,8 @@ ENABLE_IMAGE_PROMPT_GENERATION = PersistentConfig(
     os.environ.get("ENABLE_IMAGE_PROMPT_GENERATION", "true").lower() == "true",
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 AUTOMATIC1111_BASE_URL = PersistentConfig(
     "AUTOMATIC1111_BASE_URL",
     "image_generation.automatic1111.base_url",
@@ -2188,6 +2360,7 @@ IMAGES_OPENAI_API_KEY = PersistentConfig(
     os.getenv("IMAGES_OPENAI_API_KEY", OPENAI_API_KEY),
 )
 
+<<<<<<< HEAD
 IMAGES_GEMINI_API_BASE_URL = PersistentConfig(
     "IMAGES_GEMINI_API_BASE_URL",
     "image_generation.gemini.api_base_url",
@@ -2199,6 +2372,8 @@ IMAGES_GEMINI_API_KEY = PersistentConfig(
     os.getenv("IMAGES_GEMINI_API_KEY", GEMINI_API_KEY),
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 IMAGE_SIZE = PersistentConfig(
     "IMAGE_SIZE", "image_generation.size", os.getenv("IMAGE_SIZE", "512x512")
 )
@@ -2230,12 +2405,15 @@ WHISPER_MODEL_AUTO_UPDATE = (
     and os.environ.get("WHISPER_MODEL_AUTO_UPDATE", "").lower() == "true"
 )
 
+<<<<<<< HEAD
 # Add Deepgram configuration
 DEEPGRAM_API_KEY = PersistentConfig(
     "DEEPGRAM_API_KEY",
     "audio.stt.deepgram.api_key",
     os.getenv("DEEPGRAM_API_KEY", ""),
 )
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 AUDIO_STT_OPENAI_API_BASE_URL = PersistentConfig(
     "AUDIO_STT_OPENAI_API_BASE_URL",
@@ -2346,12 +2524,15 @@ LDAP_SERVER_PORT = PersistentConfig(
     int(os.environ.get("LDAP_SERVER_PORT", "389")),
 )
 
+<<<<<<< HEAD
 LDAP_ATTRIBUTE_FOR_MAIL = PersistentConfig(
     "LDAP_ATTRIBUTE_FOR_MAIL",
     "ldap.server.attribute_for_mail",
     os.environ.get("LDAP_ATTRIBUTE_FOR_MAIL", "mail"),
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 LDAP_ATTRIBUTE_FOR_USERNAME = PersistentConfig(
     "LDAP_ATTRIBUTE_FOR_USERNAME",
     "ldap.server.attribute_for_username",

@@ -57,7 +57,11 @@ async def add_memory(
             {
                 "id": memory.id,
                 "text": memory.content,
+<<<<<<< HEAD
                 "vector": request.app.state.EMBEDDING_FUNCTION(memory.content, user),
+=======
+                "vector": request.app.state.EMBEDDING_FUNCTION(memory.content),
+>>>>>>> dfef03c8e (同步远程)
                 "metadata": {"created_at": memory.created_at},
             }
         ],
@@ -82,7 +86,11 @@ async def query_memory(
 ):
     results = VECTOR_DB_CLIENT.search(
         collection_name=f"user-memory-{user.id}",
+<<<<<<< HEAD
         vectors=[request.app.state.EMBEDDING_FUNCTION(form_data.content, user)],
+=======
+        vectors=[request.app.state.EMBEDDING_FUNCTION(form_data.content)],
+>>>>>>> dfef03c8e (同步远程)
         limit=form_data.k,
     )
 
@@ -105,7 +113,11 @@ async def reset_memory_from_vector_db(
             {
                 "id": memory.id,
                 "text": memory.content,
+<<<<<<< HEAD
                 "vector": request.app.state.EMBEDDING_FUNCTION(memory.content, user),
+=======
+                "vector": request.app.state.EMBEDDING_FUNCTION(memory.content),
+>>>>>>> dfef03c8e (同步远程)
                 "metadata": {
                     "created_at": memory.created_at,
                     "updated_at": memory.updated_at,
@@ -160,9 +172,13 @@ async def update_memory_by_id(
                 {
                     "id": memory.id,
                     "text": memory.content,
+<<<<<<< HEAD
                     "vector": request.app.state.EMBEDDING_FUNCTION(
                         memory.content, user
                     ),
+=======
+                    "vector": request.app.state.EMBEDDING_FUNCTION(memory.content),
+>>>>>>> dfef03c8e (同步远程)
                     "metadata": {
                         "created_at": memory.created_at,
                         "updated_at": memory.updated_at,

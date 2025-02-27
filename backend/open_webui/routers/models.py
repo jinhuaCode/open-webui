@@ -155,6 +155,7 @@ async def update_model_by_id(
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         model.user_id != user.id
         and not has_access(user.id, "write", model.access_control)
@@ -165,6 +166,8 @@ async def update_model_by_id(
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
         )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     model = Models.update_model_by_id(id, form_data)
     return model
 
@@ -183,11 +186,15 @@ async def delete_model_by_id(id: str, user=Depends(get_verified_user)):
             detail=ERROR_MESSAGES.NOT_FOUND,
         )
 
+<<<<<<< HEAD
     if (
         user.role != "admin"
         and model.user_id != user.id
         and not has_access(user.id, "write", model.access_control)
     ):
+=======
+    if model.user_id != user.id and user.role != "admin":
+>>>>>>> dfef03c8e (同步远程)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.UNAUTHORIZED,

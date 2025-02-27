@@ -17,6 +17,7 @@ from sqlalchemy.sql import exists
 ####################
 
 
+<<<<<<< HEAD
 class MessageReaction(Base):
     __tablename__ = "message_reaction"
     id = Column(Text, primary_key=True)
@@ -36,6 +37,8 @@ class MessageReactionModel(BaseModel):
     created_at: int  # timestamp in epoch
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 class Message(Base):
     __tablename__ = "message"
     id = Column(Text, primary_key=True)
@@ -43,8 +46,11 @@ class Message(Base):
     user_id = Column(Text)
     channel_id = Column(Text, nullable=True)
 
+<<<<<<< HEAD
     parent_id = Column(Text, nullable=True)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     content = Column(Text)
     data = Column(JSON, nullable=True)
     meta = Column(JSON, nullable=True)
@@ -60,8 +66,11 @@ class MessageModel(BaseModel):
     user_id: str
     channel_id: Optional[str] = None
 
+<<<<<<< HEAD
     parent_id: Optional[str] = None
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     content: str
     data: Optional[dict] = None
     meta: Optional[dict] = None
@@ -77,11 +86,15 @@ class MessageModel(BaseModel):
 
 class MessageForm(BaseModel):
     content: str
+<<<<<<< HEAD
     parent_id: Optional[str] = None
+=======
+>>>>>>> dfef03c8e (同步远程)
     data: Optional[dict] = None
     meta: Optional[dict] = None
 
 
+<<<<<<< HEAD
 class Reactions(BaseModel):
     name: str
     user_ids: list[str]
@@ -94,6 +107,8 @@ class MessageResponse(MessageModel):
     reactions: list[Reactions]
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 class MessageTable:
     def insert_new_message(
         self, form_data: MessageForm, channel_id: str, user_id: str
@@ -107,7 +122,10 @@ class MessageTable:
                     "id": id,
                     "user_id": user_id,
                     "channel_id": channel_id,
+<<<<<<< HEAD
                     "parent_id": form_data.parent_id,
+=======
+>>>>>>> dfef03c8e (同步远程)
                     "content": form_data.content,
                     "data": form_data.data,
                     "meta": form_data.meta,
@@ -122,6 +140,7 @@ class MessageTable:
             db.refresh(result)
             return MessageModel.model_validate(result) if result else None
 
+<<<<<<< HEAD
     def get_message_by_id(self, id: str) -> Optional[MessageResponse]:
         with get_db() as db:
             message = db.get(Message, id)
@@ -156,6 +175,12 @@ class MessageTable:
                 message.user_id
                 for message in db.query(Message).filter_by(parent_id=id).all()
             ]
+=======
+    def get_message_by_id(self, id: str) -> Optional[MessageModel]:
+        with get_db() as db:
+            message = db.get(Message, id)
+            return MessageModel.model_validate(message) if message else None
+>>>>>>> dfef03c8e (同步远程)
 
     def get_messages_by_channel_id(
         self, channel_id: str, skip: int = 0, limit: int = 50
@@ -163,7 +188,11 @@ class MessageTable:
         with get_db() as db:
             all_messages = (
                 db.query(Message)
+<<<<<<< HEAD
                 .filter_by(channel_id=channel_id, parent_id=None)
+=======
+                .filter_by(channel_id=channel_id)
+>>>>>>> dfef03c8e (同步远程)
                 .order_by(Message.created_at.desc())
                 .offset(skip)
                 .limit(limit)
@@ -171,6 +200,7 @@ class MessageTable:
             )
             return [MessageModel.model_validate(message) for message in all_messages]
 
+<<<<<<< HEAD
     def get_messages_by_parent_id(
         self, channel_id: str, parent_id: str, skip: int = 0, limit: int = 50
     ) -> list[MessageModel]:
@@ -183,16 +213,28 @@ class MessageTable:
             all_messages = (
                 db.query(Message)
                 .filter_by(channel_id=channel_id, parent_id=parent_id)
+=======
+    def get_messages_by_user_id(
+        self, user_id: str, skip: int = 0, limit: int = 50
+    ) -> list[MessageModel]:
+        with get_db() as db:
+            all_messages = (
+                db.query(Message)
+                .filter_by(user_id=user_id)
+>>>>>>> dfef03c8e (同步远程)
                 .order_by(Message.created_at.desc())
                 .offset(skip)
                 .limit(limit)
                 .all()
             )
+<<<<<<< HEAD
 
             # If length of all_messages is less than limit, then add the parent message
             if len(all_messages) < limit:
                 all_messages.append(message)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
             return [MessageModel.model_validate(message) for message in all_messages]
 
     def update_message_by_id(
@@ -208,6 +250,7 @@ class MessageTable:
             db.refresh(message)
             return MessageModel.model_validate(message) if message else None
 
+<<<<<<< HEAD
     def add_reaction_to_message(
         self, id: str, user_id: str, name: str
     ) -> Optional[MessageReactionModel]:
@@ -272,6 +315,11 @@ class MessageTable:
             # Delete all reactions to this message
             db.query(MessageReaction).filter_by(message_id=id).delete()
 
+=======
+    def delete_message_by_id(self, id: str) -> bool:
+        with get_db() as db:
+            db.query(Message).filter_by(id=id).delete()
+>>>>>>> dfef03c8e (同步远程)
             db.commit()
             return True
 

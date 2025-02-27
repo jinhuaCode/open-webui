@@ -22,7 +22,11 @@ def get_task_model_id(
     # Set the task model
     task_model_id = default_model_id
     # Check if the user has a custom task model and use that model
+<<<<<<< HEAD
     if models[task_model_id].get("owned_by") == "ollama":
+=======
+    if models[task_model_id]["owned_by"] == "ollama":
+>>>>>>> dfef03c8e (同步远程)
         if task_model and task_model in models:
             task_model_id = task_model
     else:
@@ -32,12 +36,15 @@ def get_task_model_id(
     return task_model_id
 
 
+<<<<<<< HEAD
 def prompt_variables_template(template: str, variables: dict[str, str]) -> str:
     for variable, value in variables.items():
         template = template.replace(variable, value)
     return template
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def prompt_template(
     template: str, user_name: Optional[str] = None, user_location: Optional[str] = None
 ) -> str:
@@ -223,6 +230,7 @@ def tags_generation_template(
     return template
 
 
+<<<<<<< HEAD
 def image_prompt_generation_template(
     template: str, messages: list[dict], user: Optional[dict] = None
 ) -> str:
@@ -241,6 +249,8 @@ def image_prompt_generation_template(
     return template
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def emoji_generation_template(
     template: str, prompt: str, user: Optional[dict] = None
 ) -> str:

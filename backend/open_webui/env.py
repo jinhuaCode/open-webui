@@ -53,6 +53,7 @@ if USE_CUDA.lower() == "true":
 else:
     DEVICE_TYPE = "cpu"
 
+<<<<<<< HEAD
 try:
     import torch
 
@@ -60,6 +61,8 @@ try:
         DEVICE_TYPE = "mps"
 except Exception:
     pass
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 ####################################
 # LOGGING
@@ -92,7 +95,10 @@ log_sources = [
     "RAG",
     "WEBHOOK",
     "SOCKET",
+<<<<<<< HEAD
     "OAUTH",
+=======
+>>>>>>> dfef03c8e (同步远程)
 ]
 
 SRC_LOG_LEVELS = {}
@@ -113,7 +119,10 @@ if WEBUI_NAME != "Open WebUI":
 
 WEBUI_FAVICON_URL = "https://openwebui.com/favicon.png"
 
+<<<<<<< HEAD
 TRUSTED_SIGNATURE_KEY = os.environ.get("TRUSTED_SIGNATURE_KEY", "")
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 ####################################
 # ENV (dev,test,prod)
@@ -276,8 +285,11 @@ DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{DATA_DIR}/webui.db")
 if "postgres://" in DATABASE_URL:
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
+<<<<<<< HEAD
 DATABASE_SCHEMA = os.environ.get("DATABASE_SCHEMA", None)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 DATABASE_POOL_SIZE = os.environ.get("DATABASE_POOL_SIZE", 0)
 
 if DATABASE_POOL_SIZE == "":
@@ -322,11 +334,14 @@ RESET_CONFIG_ON_START = (
     os.environ.get("RESET_CONFIG_ON_START", "False").lower() == "true"
 )
 
+<<<<<<< HEAD
 
 ENABLE_REALTIME_CHAT_SAVE = (
     os.environ.get("ENABLE_REALTIME_CHAT_SAVE", "False").lower() == "true"
 )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 ####################################
 # REDIS
 ####################################
@@ -358,6 +373,7 @@ WEBUI_SECRET_KEY = os.environ.get(
     ),  # DEPRECATED: remove at next major version
 )
 
+<<<<<<< HEAD
 WEBUI_SESSION_COOKIE_SAME_SITE = os.environ.get("WEBUI_SESSION_COOKIE_SAME_SITE", "lax")
 
 WEBUI_SESSION_COOKIE_SECURE = (
@@ -374,6 +390,16 @@ WEBUI_AUTH_COOKIE_SECURE = (
         os.environ.get("WEBUI_SESSION_COOKIE_SECURE", "false"),
     ).lower()
     == "true"
+=======
+WEBUI_SESSION_COOKIE_SAME_SITE = os.environ.get(
+    "WEBUI_SESSION_COOKIE_SAME_SITE",
+    os.environ.get("WEBUI_SESSION_COOKIE_SAME_SITE", "lax"),
+)
+
+WEBUI_SESSION_COOKIE_SECURE = os.environ.get(
+    "WEBUI_SESSION_COOKIE_SECURE",
+    os.environ.get("WEBUI_SESSION_COOKIE_SECURE", "false").lower() == "true",
+>>>>>>> dfef03c8e (同步远程)
 )
 
 if WEBUI_AUTH and WEBUI_SECRET_KEY == "":
@@ -416,6 +442,9 @@ else:
 ####################################
 
 OFFLINE_MODE = os.environ.get("OFFLINE_MODE", "false").lower() == "true"
+<<<<<<< HEAD
 
 if OFFLINE_MODE:
     os.environ["HF_HUB_OFFLINE"] = "1"
+=======
+>>>>>>> dfef03c8e (同步远程)

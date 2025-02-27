@@ -11,8 +11,15 @@ import re
 import time
 from typing import Optional, Union
 from urllib.parse import urlparse
+<<<<<<< HEAD
 import aiohttp
 from aiocache import cached
+=======
+
+import aiohttp
+from aiocache import cached
+
+>>>>>>> dfef03c8e (同步远程)
 import requests
 
 from fastapi import (
@@ -26,7 +33,11 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+<<<<<<< HEAD
 from pydantic import BaseModel, ConfigDict, validator
+=======
+from pydantic import BaseModel, ConfigDict
+>>>>>>> dfef03c8e (同步远程)
 from starlette.background import BackgroundTask
 
 
@@ -150,12 +161,19 @@ async def send_post_request(
         )
 
 
+<<<<<<< HEAD
 def get_api_key(idx, url, configs):
     parsed_url = urlparse(url)
     base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
     return configs.get(str(idx), configs.get(base_url, {})).get(
         "key", None
     )  # Legacy support
+=======
+def get_api_key(url, configs):
+    parsed_url = urlparse(url)
+    base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+    return configs.get(base_url, {}).get("key", None)
+>>>>>>> dfef03c8e (同步远程)
 
 
 ##########################################
@@ -238,6 +256,7 @@ async def update_config(
     request.app.state.config.OLLAMA_BASE_URLS = form_data.OLLAMA_BASE_URLS
     request.app.state.config.OLLAMA_API_CONFIGS = form_data.OLLAMA_API_CONFIGS
 
+<<<<<<< HEAD
     # Remove the API configs that are not in the API URLS
     keys = list(map(str, range(len(request.app.state.config.OLLAMA_BASE_URLS))))
     request.app.state.config.OLLAMA_API_CONFIGS = {
@@ -245,6 +264,13 @@ async def update_config(
         for key, value in request.app.state.config.OLLAMA_API_CONFIGS.items()
         if key in keys
     }
+=======
+    # Remove any extra configs
+    config_urls = request.app.state.config.OLLAMA_API_CONFIGS.keys()
+    for url in list(request.app.state.config.OLLAMA_BASE_URLS):
+        if url not in config_urls:
+            request.app.state.config.OLLAMA_API_CONFIGS.pop(url, None)
+>>>>>>> dfef03c8e (同步远程)
 
     return {
         "ENABLE_OLLAMA_API": request.app.state.config.ENABLE_OLLAMA_API,
@@ -258,6 +284,7 @@ async def get_all_models(request: Request):
     log.info("get_all_models()")
     if request.app.state.config.ENABLE_OLLAMA_API:
         request_tasks = []
+<<<<<<< HEAD
         for idx, url in enumerate(request.app.state.config.OLLAMA_BASE_URLS):
             if (str(idx) not in request.app.state.config.OLLAMA_API_CONFIGS) and (
                 url not in request.app.state.config.OLLAMA_API_CONFIGS  # Legacy support
@@ -271,6 +298,14 @@ async def get_all_models(request: Request):
                     ),  # Legacy support
                 )
 
+=======
+
+        for idx, url in enumerate(request.app.state.config.OLLAMA_BASE_URLS):
+            if url not in request.app.state.config.OLLAMA_API_CONFIGS:
+                request_tasks.append(send_get_request(f"{url}/api/tags"))
+            else:
+                api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
                 enable = api_config.get("enable", True)
                 key = api_config.get("key", None)
 
@@ -284,12 +319,16 @@ async def get_all_models(request: Request):
         for idx, response in enumerate(responses):
             if response:
                 url = request.app.state.config.OLLAMA_BASE_URLS[idx]
+<<<<<<< HEAD
                 api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
                     str(idx),
                     request.app.state.config.OLLAMA_API_CONFIGS.get(
                         url, {}
                     ),  # Legacy support
                 )
+=======
+                api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
                 prefix_id = api_config.get("prefix_id", None)
                 model_ids = api_config.get("model_ids", [])
@@ -363,7 +402,11 @@ async def get_ollama_tags(
         models = await get_all_models(request)
     else:
         url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
         key = get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS)
+=======
+        key = get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS)
+>>>>>>> dfef03c8e (同步远程)
 
         r = None
         try:
@@ -393,7 +436,11 @@ async def get_ollama_tags(
             )
 
     if user.role == "user" and not BYPASS_MODEL_ACCESS_CONTROL:
+<<<<<<< HEAD
         models["models"] = await get_filtered_models(models, user)
+=======
+        models["models"] = get_filtered_models(models, user)
+>>>>>>> dfef03c8e (同步远程)
 
     return models
 
@@ -407,6 +454,7 @@ async def get_ollama_versions(request: Request, url_idx: Optional[int] = None):
             request_tasks = [
                 send_get_request(
                     f"{url}/api/version",
+<<<<<<< HEAD
                     request.app.state.config.OLLAMA_API_CONFIGS.get(
                         str(idx),
                         request.app.state.config.OLLAMA_API_CONFIGS.get(
@@ -415,6 +463,13 @@ async def get_ollama_versions(request: Request, url_idx: Optional[int] = None):
                     ).get("key", None),
                 )
                 for idx, url in enumerate(request.app.state.config.OLLAMA_BASE_URLS)
+=======
+                    request.app.state.config.OLLAMA_API_CONFIGS.get(url, {}).get(
+                        "key", None
+                    ),
+                )
+                for url in request.app.state.config.OLLAMA_BASE_URLS
+>>>>>>> dfef03c8e (同步远程)
             ]
             responses = await asyncio.gather(*request_tasks)
             responses = list(filter(lambda x: x is not None, responses))
@@ -471,6 +526,7 @@ async def get_ollama_loaded_models(request: Request, user=Depends(get_verified_u
         request_tasks = [
             send_get_request(
                 f"{url}/api/ps",
+<<<<<<< HEAD
                 request.app.state.config.OLLAMA_API_CONFIGS.get(
                     str(idx),
                     request.app.state.config.OLLAMA_API_CONFIGS.get(
@@ -479,6 +535,13 @@ async def get_ollama_loaded_models(request: Request, user=Depends(get_verified_u
                 ).get("key", None),
             )
             for idx, url in enumerate(request.app.state.config.OLLAMA_BASE_URLS)
+=======
+                request.app.state.config.OLLAMA_API_CONFIGS.get(url, {}).get(
+                    "key", None
+                ),
+            )
+            for url in request.app.state.config.OLLAMA_BASE_URLS
+>>>>>>> dfef03c8e (同步远程)
         ]
         responses = await asyncio.gather(*request_tasks)
 
@@ -508,7 +571,11 @@ async def pull_model(
     return await send_post_request(
         url=f"{url}/api/pull",
         payload=json.dumps(payload),
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
     )
 
 
@@ -544,17 +611,29 @@ async def push_model(
     return await send_post_request(
         url=f"{url}/api/push",
         payload=form_data.model_dump_json(exclude_none=True).encode(),
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
     )
 
 
 class CreateModelForm(BaseModel):
+<<<<<<< HEAD
     model: Optional[str] = None
     stream: Optional[bool] = None
     path: Optional[str] = None
 
     model_config = ConfigDict(extra="allow")
 
+=======
+    name: str
+    modelfile: Optional[str] = None
+    stream: Optional[bool] = None
+    path: Optional[str] = None
+
+>>>>>>> dfef03c8e (同步远程)
 
 @router.post("/api/create")
 @router.post("/api/create/{url_idx}")
@@ -570,7 +649,11 @@ async def create_model(
     return await send_post_request(
         url=f"{url}/api/create",
         payload=form_data.model_dump_json(exclude_none=True).encode(),
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
     )
 
 
@@ -600,7 +683,11 @@ async def copy_model(
             )
 
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     key = get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS)
+=======
+    key = get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS)
+>>>>>>> dfef03c8e (同步远程)
 
     try:
         r = requests.request(
@@ -655,7 +742,11 @@ async def delete_model(
             )
 
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     key = get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS)
+=======
+    key = get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS)
+>>>>>>> dfef03c8e (同步远程)
 
     try:
         r = requests.request(
@@ -705,7 +796,11 @@ async def show_model_info(
     url_idx = random.choice(models[form_data.name]["urls"])
 
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     key = get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS)
+=======
+    key = get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS)
+>>>>>>> dfef03c8e (同步远程)
 
     try:
         r = requests.request(
@@ -774,7 +869,11 @@ async def embed(
             )
 
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     key = get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS)
+=======
+    key = get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS)
+>>>>>>> dfef03c8e (同步远程)
 
     try:
         r = requests.request(
@@ -843,7 +942,11 @@ async def embeddings(
             )
 
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     key = get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS)
+=======
+    key = get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS)
+>>>>>>> dfef03c8e (同步远程)
 
     try:
         r = requests.request(
@@ -918,10 +1021,14 @@ async def generate_completion(
             )
 
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
         str(url_idx),
         request.app.state.config.OLLAMA_API_CONFIGS.get(url, {}),  # Legacy support
     )
+=======
+    api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
     prefix_id = api_config.get("prefix_id", None)
     if prefix_id:
@@ -930,12 +1037,17 @@ async def generate_completion(
     return await send_post_request(
         url=f"{url}/api/generate",
         payload=form_data.model_dump_json(exclude_none=True).encode(),
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
     )
 
 
 class ChatMessage(BaseModel):
     role: str
+<<<<<<< HEAD
     content: Optional[str] = None
     tool_calls: Optional[list[dict]] = None
     images: Optional[list[str]] = None
@@ -953,16 +1065,28 @@ class ChatMessage(BaseModel):
 
         return field_value
 
+=======
+    content: str
+    images: Optional[list[str]] = None
+
+>>>>>>> dfef03c8e (同步远程)
 
 class GenerateChatCompletionForm(BaseModel):
     model: str
     messages: list[ChatMessage]
+<<<<<<< HEAD
     format: Optional[Union[dict, str]] = None
+=======
+    format: Optional[dict] = None
+>>>>>>> dfef03c8e (同步远程)
     options: Optional[dict] = None
     template: Optional[str] = None
     stream: Optional[bool] = True
     keep_alive: Optional[Union[int, str]] = None
+<<<<<<< HEAD
     tools: Optional[list[dict]] = None
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 
 async def get_ollama_url(request: Request, model: str, url_idx: Optional[int] = None):
@@ -975,7 +1099,11 @@ async def get_ollama_url(request: Request, model: str, url_idx: Optional[int] = 
             )
         url_idx = random.choice(models[model].get("urls", []))
     url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     return url, url_idx
+=======
+    return url
+>>>>>>> dfef03c8e (同步远程)
 
 
 @router.post("/api/chat")
@@ -990,7 +1118,10 @@ async def generate_chat_completion(
     if BYPASS_MODEL_ACCESS_CONTROL:
         bypass_filter = True
 
+<<<<<<< HEAD
     metadata = form_data.pop("metadata", None)
+=======
+>>>>>>> dfef03c8e (同步远程)
     try:
         form_data = GenerateChatCompletionForm(**form_data)
     except Exception as e:
@@ -1020,7 +1151,11 @@ async def generate_chat_completion(
             payload["options"] = apply_model_params_to_body_ollama(
                 params, payload["options"]
             )
+<<<<<<< HEAD
             payload = apply_model_system_prompt_to_body(params, payload, metadata, user)
+=======
+            payload = apply_model_system_prompt_to_body(params, payload, user)
+>>>>>>> dfef03c8e (同步远程)
 
         # Check if user has access to the model
         if not bypass_filter and user.role == "user":
@@ -1044,11 +1179,16 @@ async def generate_chat_completion(
     if ":" not in payload["model"]:
         payload["model"] = f"{payload['model']}:latest"
 
+<<<<<<< HEAD
     url, url_idx = await get_ollama_url(request, payload["model"], url_idx)
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
         str(url_idx),
         request.app.state.config.OLLAMA_API_CONFIGS.get(url, {}),  # Legacy support
     )
+=======
+    url = await get_ollama_url(request, payload["model"], url_idx)
+    api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
     prefix_id = api_config.get("prefix_id", None)
     if prefix_id:
@@ -1058,7 +1198,11 @@ async def generate_chat_completion(
         url=f"{url}/api/chat",
         payload=json.dumps(payload),
         stream=form_data.stream,
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
         content_type="application/x-ndjson",
     )
 
@@ -1146,11 +1290,16 @@ async def generate_openai_completion(
     if ":" not in payload["model"]:
         payload["model"] = f"{payload['model']}:latest"
 
+<<<<<<< HEAD
     url, url_idx = await get_ollama_url(request, payload["model"], url_idx)
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
         str(url_idx),
         request.app.state.config.OLLAMA_API_CONFIGS.get(url, {}),  # Legacy support
     )
+=======
+    url = await get_ollama_url(request, payload["model"], url_idx)
+    api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
     prefix_id = api_config.get("prefix_id", None)
 
@@ -1161,7 +1310,11 @@ async def generate_openai_completion(
         url=f"{url}/v1/completions",
         payload=json.dumps(payload),
         stream=payload.get("stream", False),
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
     )
 
 
@@ -1173,8 +1326,11 @@ async def generate_openai_chat_completion(
     url_idx: Optional[int] = None,
     user=Depends(get_verified_user),
 ):
+<<<<<<< HEAD
     metadata = form_data.pop("metadata", None)
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     try:
         completion_form = OpenAIChatCompletionForm(**form_data)
     except Exception as e:
@@ -1201,7 +1357,11 @@ async def generate_openai_chat_completion(
 
         if params:
             payload = apply_model_params_to_body_openai(params, payload)
+<<<<<<< HEAD
             payload = apply_model_system_prompt_to_body(params, payload, metadata, user)
+=======
+            payload = apply_model_system_prompt_to_body(params, payload, user)
+>>>>>>> dfef03c8e (同步远程)
 
         # Check if user has access to the model
         if user.role == "user":
@@ -1225,11 +1385,16 @@ async def generate_openai_chat_completion(
     if ":" not in payload["model"]:
         payload["model"] = f"{payload['model']}:latest"
 
+<<<<<<< HEAD
     url, url_idx = await get_ollama_url(request, payload["model"], url_idx)
     api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(
         str(url_idx),
         request.app.state.config.OLLAMA_API_CONFIGS.get(url, {}),  # Legacy support
     )
+=======
+    url = await get_ollama_url(request, payload["model"], url_idx)
+    api_config = request.app.state.config.OLLAMA_API_CONFIGS.get(url, {})
+>>>>>>> dfef03c8e (同步远程)
 
     prefix_id = api_config.get("prefix_id", None)
     if prefix_id:
@@ -1239,7 +1404,11 @@ async def generate_openai_chat_completion(
         url=f"{url}/v1/chat/completions",
         payload=json.dumps(payload),
         stream=payload.get("stream", False),
+<<<<<<< HEAD
         key=get_api_key(url_idx, url, request.app.state.config.OLLAMA_API_CONFIGS),
+=======
+        key=get_api_key(url, request.app.state.config.OLLAMA_API_CONFIGS),
+>>>>>>> dfef03c8e (同步远程)
     )
 
 
@@ -1421,10 +1590,16 @@ async def download_model(
         return None
 
 
+<<<<<<< HEAD
 # TODO: Progress bar does not reflect size & duration of upload.
 @router.post("/models/upload")
 @router.post("/models/upload/{url_idx}")
 async def upload_model(
+=======
+@router.post("/models/upload")
+@router.post("/models/upload/{url_idx}")
+def upload_model(
+>>>>>>> dfef03c8e (同步远程)
     request: Request,
     file: UploadFile = File(...),
     url_idx: Optional[int] = None,
@@ -1433,6 +1608,7 @@ async def upload_model(
     if url_idx is None:
         url_idx = 0
     ollama_url = request.app.state.config.OLLAMA_BASE_URLS[url_idx]
+<<<<<<< HEAD
     file_path = os.path.join(UPLOAD_DIR, file.filename)
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -1512,6 +1688,61 @@ async def upload_model(
 
             else:
                 raise Exception("Ollama: Could not create blob, Please try again.")
+=======
+
+    file_path = f"{UPLOAD_DIR}/{file.filename}"
+
+    # Save file in chunks
+    with open(file_path, "wb+") as f:
+        for chunk in file.file:
+            f.write(chunk)
+
+    def file_process_stream():
+        nonlocal ollama_url
+        total_size = os.path.getsize(file_path)
+        chunk_size = 1024 * 1024
+        try:
+            with open(file_path, "rb") as f:
+                total = 0
+                done = False
+
+                while not done:
+                    chunk = f.read(chunk_size)
+                    if not chunk:
+                        done = True
+                        continue
+
+                    total += len(chunk)
+                    progress = round((total / total_size) * 100, 2)
+
+                    res = {
+                        "progress": progress,
+                        "total": total_size,
+                        "completed": total,
+                    }
+                    yield f"data: {json.dumps(res)}\n\n"
+
+                if done:
+                    f.seek(0)
+                    hashed = calculate_sha256(f)
+                    f.seek(0)
+
+                    url = f"{ollama_url}/api/blobs/sha256:{hashed}"
+                    response = requests.post(url, data=f)
+
+                    if response.ok:
+                        res = {
+                            "done": done,
+                            "blob": f"sha256:{hashed}",
+                            "name": file.filename,
+                        }
+                        os.remove(file_path)
+                        yield f"data: {json.dumps(res)}\n\n"
+                    else:
+                        raise Exception(
+                            "Ollama: Could not create blob, Please try again."
+                        )
+>>>>>>> dfef03c8e (同步远程)
 
         except Exception as e:
             res = {"error": str(e)}

@@ -11,6 +11,7 @@ from langchain.retrievers import ContextualCompressionRetriever, EnsembleRetriev
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
 
+<<<<<<< HEAD
 
 from open_webui.config import VECTOR_DB
 from open_webui.retrieval.vector.connector import VECTOR_DB_CLIENT
@@ -23,6 +24,12 @@ from open_webui.env import (
     OFFLINE_MODE,
     ENABLE_FORWARD_USER_INFO_HEADERS,
 )
+=======
+from open_webui.retrieval.vector.connector import VECTOR_DB_CLIENT
+from open_webui.utils.misc import get_last_user_message
+
+from open_webui.env import SRC_LOG_LEVELS
+>>>>>>> dfef03c8e (同步远程)
 
 log = logging.getLogger(__name__)
 log.setLevel(SRC_LOG_LEVELS["RAG"])
@@ -67,7 +74,13 @@ class VectorSearchRetriever(BaseRetriever):
 
 
 def query_doc(
+<<<<<<< HEAD
     collection_name: str, query_embedding: list[float], k: int, user: UserModel = None
+=======
+    collection_name: str,
+    query_embedding: list[float],
+    k: int,
+>>>>>>> dfef03c8e (同步远程)
 ):
     try:
         result = VECTOR_DB_CLIENT.search(
@@ -85,6 +98,7 @@ def query_doc(
         raise e
 
 
+<<<<<<< HEAD
 def get_doc(collection_name: str, user: UserModel = None):
     try:
         result = VECTOR_DB_CLIENT.get(collection_name=collection_name)
@@ -98,6 +112,8 @@ def get_doc(collection_name: str, user: UserModel = None):
         raise e
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def query_doc_with_hybrid_search(
     collection_name: str,
     query: str,
@@ -151,6 +167,7 @@ def query_doc_with_hybrid_search(
         raise e
 
 
+<<<<<<< HEAD
 def merge_get_results(get_results: list[dict]) -> dict:
     # Initialize lists to store combined data
     combined_documents = []
@@ -172,6 +189,8 @@ def merge_get_results(get_results: list[dict]) -> dict:
     return result
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def merge_and_sort_query_results(
     query_results: list[dict], k: int, reverse: bool = False
 ) -> list[dict]:
@@ -215,6 +234,7 @@ def merge_and_sort_query_results(
     return result
 
 
+<<<<<<< HEAD
 def get_all_items_from_collections(collection_names: list[str]) -> dict:
     results = []
 
@@ -232,6 +252,8 @@ def get_all_items_from_collections(collection_names: list[str]) -> dict:
     return merge_get_results(results)
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 def query_collection(
     collection_names: list[str],
     queries: list[str],
@@ -256,12 +278,16 @@ def query_collection(
             else:
                 pass
 
+<<<<<<< HEAD
     if VECTOR_DB == "chroma":
         # Chroma uses unconventional cosine similarity, so we don't need to reverse the results
         # https://docs.trychroma.com/docs/collections/configure#configuring-chroma-collections
         return merge_and_sort_query_results(results, k=k, reverse=False)
     else:
         return merge_and_sort_query_results(results, k=k, reverse=True)
+=======
+    return merge_and_sort_query_results(results, k=k)
+>>>>>>> dfef03c8e (同步远程)
 
 
 def query_collection_with_hybrid_search(
@@ -297,12 +323,16 @@ def query_collection_with_hybrid_search(
             "Hybrid search failed for all collections. Using Non hybrid search as fallback."
         )
 
+<<<<<<< HEAD
     if VECTOR_DB == "chroma":
         # Chroma uses unconventional cosine similarity, so we don't need to reverse the results
         # https://docs.trychroma.com/docs/collections/configure#configuring-chroma-collections
         return merge_and_sort_query_results(results, k=k, reverse=False)
     else:
         return merge_and_sort_query_results(results, k=k, reverse=True)
+=======
+    return merge_and_sort_query_results(results, k=k, reverse=True)
+>>>>>>> dfef03c8e (同步远程)
 
 
 def get_embedding_function(
@@ -314,14 +344,21 @@ def get_embedding_function(
     embedding_batch_size,
 ):
     if embedding_engine == "":
+<<<<<<< HEAD
         return lambda query, user=None: embedding_function.encode(query).tolist()
     elif embedding_engine in ["ollama", "openai"]:
         func = lambda query, user=None: generate_embeddings(
+=======
+        return lambda query: embedding_function.encode(query).tolist()
+    elif embedding_engine in ["ollama", "openai"]:
+        func = lambda query: generate_embeddings(
+>>>>>>> dfef03c8e (同步远程)
             engine=embedding_engine,
             model=embedding_model,
             text=query,
             url=url,
             key=key,
+<<<<<<< HEAD
             user=user,
         )
 
@@ -339,6 +376,20 @@ def get_embedding_function(
         return lambda query, user=None: generate_multiple(query, user, func)
     else:
         raise ValueError(f"Unknown embedding engine: {embedding_engine}")
+=======
+        )
+
+        def generate_multiple(query, func):
+            if isinstance(query, list):
+                embeddings = []
+                for i in range(0, len(query), embedding_batch_size):
+                    embeddings.extend(func(query[i : i + embedding_batch_size]))
+                return embeddings
+            else:
+                return func(query)
+
+        return lambda query: generate_multiple(query, func)
+>>>>>>> dfef03c8e (同步远程)
 
 
 def get_sources_from_files(
@@ -349,22 +400,31 @@ def get_sources_from_files(
     reranking_function,
     r,
     hybrid_search,
+<<<<<<< HEAD
     full_context=False,
 ):
     log.debug(
         f"files: {files} {queries} {embedding_function} {reranking_function} {full_context}"
     )
+=======
+):
+    log.debug(f"files: {files} {queries} {embedding_function} {reranking_function}")
+>>>>>>> dfef03c8e (同步远程)
 
     extracted_collections = []
     relevant_contexts = []
 
     for file in files:
+<<<<<<< HEAD
         if file.get("docs"):
             context = {
                 "documents": [[doc.get("content") for doc in file.get("docs")]],
                 "metadatas": [[doc.get("metadata") for doc in file.get("docs")]],
             }
         elif file.get("context") == "full":
+=======
+        if file.get("context") == "full":
+>>>>>>> dfef03c8e (同步远程)
             context = {
                 "documents": [[file.get("file").get("data", {}).get("content")]],
                 "metadatas": [[{"file_id": file.get("id"), "name": file.get("name")}]],
@@ -391,6 +451,7 @@ def get_sources_from_files(
                 log.debug(f"skipping {file} as it has already been extracted")
                 continue
 
+<<<<<<< HEAD
             if full_context:
                 try:
                     context = get_all_items_from_collections(collection_names)
@@ -421,13 +482,44 @@ def get_sources_from_files(
 
                         if (not hybrid_search) or (context is None):
                             context = query_collection(
+=======
+            try:
+                context = None
+                if file.get("type") == "text":
+                    context = file["content"]
+                else:
+                    if hybrid_search:
+                        try:
+                            context = query_collection_with_hybrid_search(
+>>>>>>> dfef03c8e (同步远程)
                                 collection_names=collection_names,
                                 queries=queries,
                                 embedding_function=embedding_function,
                                 k=k,
+<<<<<<< HEAD
                             )
                 except Exception as e:
                     log.exception(e)
+=======
+                                reranking_function=reranking_function,
+                                r=r,
+                            )
+                        except Exception as e:
+                            log.debug(
+                                "Error when using hybrid search, using"
+                                " non hybrid search as fallback."
+                            )
+
+                    if (not hybrid_search) or (context is None):
+                        context = query_collection(
+                            collection_names=collection_names,
+                            queries=queries,
+                            embedding_function=embedding_function,
+                            k=k,
+                        )
+            except Exception as e:
+                log.exception(e)
+>>>>>>> dfef03c8e (同步远程)
 
             extracted_collections.extend(collection_names)
 
@@ -462,9 +554,12 @@ def get_model_path(model: str, update_model: bool = False):
 
     local_files_only = not update_model
 
+<<<<<<< HEAD
     if OFFLINE_MODE:
         local_files_only = True
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     snapshot_kwargs = {
         "cache_dir": cache_dir,
         "local_files_only": local_files_only,
@@ -498,11 +593,15 @@ def get_model_path(model: str, update_model: bool = False):
 
 
 def generate_openai_batch_embeddings(
+<<<<<<< HEAD
     model: str,
     texts: list[str],
     url: str = "https://api.openai.com/v1",
     key: str = "",
     user: UserModel = None,
+=======
+    model: str, texts: list[str], url: str = "https://api.openai.com/v1", key: str = ""
+>>>>>>> dfef03c8e (同步远程)
 ) -> Optional[list[list[float]]]:
     try:
         r = requests.post(
@@ -510,6 +609,7 @@ def generate_openai_batch_embeddings(
             headers={
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {key}",
+<<<<<<< HEAD
                 **(
                     {
                         "X-OpenWebUI-User-Name": user.name,
@@ -520,6 +620,8 @@ def generate_openai_batch_embeddings(
                     if ENABLE_FORWARD_USER_INFO_HEADERS and user
                     else {}
                 ),
+=======
+>>>>>>> dfef03c8e (同步远程)
             },
             json={"input": texts, "model": model},
         )
@@ -535,7 +637,11 @@ def generate_openai_batch_embeddings(
 
 
 def generate_ollama_batch_embeddings(
+<<<<<<< HEAD
     model: str, texts: list[str], url: str, key: str = "", user: UserModel = None
+=======
+    model: str, texts: list[str], url: str, key: str = ""
+>>>>>>> dfef03c8e (同步远程)
 ) -> Optional[list[list[float]]]:
     try:
         r = requests.post(
@@ -543,6 +649,7 @@ def generate_ollama_batch_embeddings(
             headers={
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {key}",
+<<<<<<< HEAD
                 **(
                     {
                         "X-OpenWebUI-User-Name": user.name,
@@ -553,6 +660,8 @@ def generate_ollama_batch_embeddings(
                     if ENABLE_FORWARD_USER_INFO_HEADERS
                     else {}
                 ),
+=======
+>>>>>>> dfef03c8e (同步远程)
             },
             json={"input": texts, "model": model},
         )
@@ -571,11 +680,15 @@ def generate_ollama_batch_embeddings(
 def generate_embeddings(engine: str, model: str, text: Union[str, list[str]], **kwargs):
     url = kwargs.get("url", "")
     key = kwargs.get("key", "")
+<<<<<<< HEAD
     user = kwargs.get("user")
+=======
+>>>>>>> dfef03c8e (同步远程)
 
     if engine == "ollama":
         if isinstance(text, list):
             embeddings = generate_ollama_batch_embeddings(
+<<<<<<< HEAD
                 **{"model": model, "texts": text, "url": url, "key": key, "user": user}
             )
         else:
@@ -587,13 +700,26 @@ def generate_embeddings(engine: str, model: str, text: Union[str, list[str]], **
                     "key": key,
                     "user": user,
                 }
+=======
+                **{"model": model, "texts": text, "url": url, "key": key}
+            )
+        else:
+            embeddings = generate_ollama_batch_embeddings(
+                **{"model": model, "texts": [text], "url": url, "key": key}
+>>>>>>> dfef03c8e (同步远程)
             )
         return embeddings[0] if isinstance(text, str) else embeddings
     elif engine == "openai":
         if isinstance(text, list):
+<<<<<<< HEAD
             embeddings = generate_openai_batch_embeddings(model, text, url, key, user)
         else:
             embeddings = generate_openai_batch_embeddings(model, [text], url, key, user)
+=======
+            embeddings = generate_openai_batch_embeddings(model, text, url, key)
+        else:
+            embeddings = generate_openai_batch_embeddings(model, [text], url, key)
+>>>>>>> dfef03c8e (同步远程)
 
         return embeddings[0] if isinstance(text, str) else embeddings
 

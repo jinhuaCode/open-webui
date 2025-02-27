@@ -5,11 +5,17 @@ from sqlalchemy import (
     create_engine,
     Column,
     Integer,
+<<<<<<< HEAD
     MetaData,
     select,
     text,
     Text,
     Table,
+=======
+    select,
+    text,
+    Text,
+>>>>>>> dfef03c8e (同步远程)
     values,
 )
 from sqlalchemy.sql import true
@@ -19,12 +25,20 @@ from sqlalchemy.orm import declarative_base, scoped_session, sessionmaker
 from sqlalchemy.dialects.postgresql import JSONB, array
 from pgvector.sqlalchemy import Vector
 from sqlalchemy.ext.mutable import MutableDict
+<<<<<<< HEAD
 from sqlalchemy.exc import NoSuchTableError
 
 from open_webui.retrieval.vector.main import VectorItem, SearchResult, GetResult
 from open_webui.config import PGVECTOR_DB_URL, PGVECTOR_INITIALIZE_MAX_VECTOR_LENGTH
 
 VECTOR_LENGTH = PGVECTOR_INITIALIZE_MAX_VECTOR_LENGTH
+=======
+
+from open_webui.retrieval.vector.main import VectorItem, SearchResult, GetResult
+from open_webui.config import PGVECTOR_DB_URL
+
+VECTOR_LENGTH = 1536
+>>>>>>> dfef03c8e (同步远程)
 Base = declarative_base()
 
 
@@ -59,9 +73,12 @@ class PgvectorClient:
             # Ensure the pgvector extension is available
             self.session.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
 
+<<<<<<< HEAD
             # Check vector length consistency
             self.check_vector_length()
 
+=======
+>>>>>>> dfef03c8e (同步远程)
             # Create the tables if they do not exist
             # Base.metadata.create_all requires a bind (engine or connection)
             # Get the connection from the session
@@ -88,6 +105,7 @@ class PgvectorClient:
             print(f"Error during initialization: {e}")
             raise
 
+<<<<<<< HEAD
     def check_vector_length(self) -> None:
         """
         Check if the VECTOR_LENGTH matches the existing vector column dimension in the database.
@@ -123,6 +141,8 @@ class PgvectorClient:
                 "The 'vector' column does not exist in the 'document_chunk' table."
             )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     def adjust_vector_length(self, vector: List[float]) -> List[float]:
         # Adjust vector to have length VECTOR_LENGTH
         current_length = len(vector)

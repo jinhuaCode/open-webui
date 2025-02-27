@@ -5,14 +5,18 @@ from pathlib import Path
 
 import typer
 import uvicorn
+<<<<<<< HEAD
 from typing import Optional
 from typing_extensions import Annotated
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 app = typer.Typer()
 
 KEY_FILE = Path.cwd() / ".webui_secret_key"
 
 
+<<<<<<< HEAD
 def version_callback(value: bool):
     if value:
         from open_webui.env import VERSION
@@ -30,6 +34,8 @@ def main(
     pass
 
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 @app.command()
 def serve(
     host: str = "0.0.0.0",

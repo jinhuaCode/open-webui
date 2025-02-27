@@ -80,11 +80,20 @@ class GroupResponse(BaseModel):
 class GroupForm(BaseModel):
     name: str
     description: str
+<<<<<<< HEAD
     permissions: Optional[dict] = None
 
 
 class GroupUpdateForm(GroupForm):
     user_ids: Optional[list[str]] = None
+=======
+
+
+class GroupUpdateForm(GroupForm):
+    permissions: Optional[dict] = None
+    user_ids: Optional[list[str]] = None
+    admin_ids: Optional[list[str]] = None
+>>>>>>> dfef03c8e (同步远程)
 
 
 class GroupTable:
@@ -94,7 +103,11 @@ class GroupTable:
         with get_db() as db:
             group = GroupModel(
                 **{
+<<<<<<< HEAD
                     **form_data.model_dump(exclude_none=True),
+=======
+                    **form_data.model_dump(),
+>>>>>>> dfef03c8e (同步远程)
                     "id": str(uuid.uuid4()),
                     "user_id": user_id,
                     "created_at": int(time.time()),
@@ -188,6 +201,7 @@ class GroupTable:
             except Exception:
                 return False
 
+<<<<<<< HEAD
     def remove_user_from_all_groups(self, user_id: str) -> bool:
         with get_db() as db:
             try:
@@ -207,5 +221,7 @@ class GroupTable:
             except Exception:
                 return False
 
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 Groups = GroupTable()

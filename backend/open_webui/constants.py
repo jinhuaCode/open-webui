@@ -57,7 +57,11 @@ class ERROR_MESSAGES(str, Enum):
     )
 
     FILE_NOT_SENT = "FILE_NOT_SENT"
+<<<<<<< HEAD
     FILE_NOT_SUPPORTED = "Oops! It seems like the file format you're trying to upload is not supported. Please upload a file with a supported format and try again."
+=======
+    FILE_NOT_SUPPORTED = "Oops! It seems like the file format you're trying to upload is not supported. Please upload a file with a supported format (e.g., JPG, PNG, PDF, TXT) and try again."
+>>>>>>> dfef03c8e (同步远程)
 
     NOT_FOUND = "We could not find what you're looking for :/"
     USER_NOT_FOUND = "We could not find what you're looking for :/"
@@ -113,7 +117,10 @@ class TASKS(str, Enum):
     TAGS_GENERATION = "tags_generation"
     EMOJI_GENERATION = "emoji_generation"
     QUERY_GENERATION = "query_generation"
+<<<<<<< HEAD
     IMAGE_PROMPT_GENERATION = "image_prompt_generation"
+=======
+>>>>>>> dfef03c8e (同步远程)
     AUTOCOMPLETE_GENERATION = "autocomplete_generation"
     FUNCTION_CALLING = "function_calling"
     MOA_RESPONSE_GENERATION = "moa_response_generation"

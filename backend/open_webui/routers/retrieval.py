@@ -21,7 +21,10 @@ from fastapi import (
     APIRouter,
 )
 from fastapi.middleware.cors import CORSMiddleware
+<<<<<<< HEAD
 from fastapi.concurrency import run_in_threadpool
+=======
+>>>>>>> dfef03c8e (同步远程)
 from pydantic import BaseModel
 import tiktoken
 
@@ -46,19 +49,28 @@ from open_webui.retrieval.web.utils import get_web_loader
 from open_webui.retrieval.web.brave import search_brave
 from open_webui.retrieval.web.kagi import search_kagi
 from open_webui.retrieval.web.mojeek import search_mojeek
+<<<<<<< HEAD
 from open_webui.retrieval.web.bocha import search_bocha
+=======
+>>>>>>> dfef03c8e (同步远程)
 from open_webui.retrieval.web.duckduckgo import search_duckduckgo
 from open_webui.retrieval.web.google_pse import search_google_pse
 from open_webui.retrieval.web.jina_search import search_jina
 from open_webui.retrieval.web.searchapi import search_searchapi
+<<<<<<< HEAD
 from open_webui.retrieval.web.serpapi import search_serpapi
+=======
+>>>>>>> dfef03c8e (同步远程)
 from open_webui.retrieval.web.searxng import search_searxng
 from open_webui.retrieval.web.serper import search_serper
 from open_webui.retrieval.web.serply import search_serply
 from open_webui.retrieval.web.serpstack import search_serpstack
 from open_webui.retrieval.web.tavily import search_tavily
 from open_webui.retrieval.web.bing import search_bing
+<<<<<<< HEAD
 from open_webui.retrieval.web.exa import search_exa
+=======
+>>>>>>> dfef03c8e (同步远程)
 
 
 from open_webui.retrieval.utils import (
@@ -351,7 +363,10 @@ async def get_rag_config(request: Request, user=Depends(get_admin_user)):
     return {
         "status": True,
         "pdf_extract_images": request.app.state.config.PDF_EXTRACT_IMAGES,
+<<<<<<< HEAD
         "RAG_FULL_CONTEXT": request.app.state.config.RAG_FULL_CONTEXT,
+=======
+>>>>>>> dfef03c8e (同步远程)
         "enable_google_drive_integration": request.app.state.config.ENABLE_GOOGLE_DRIVE_INTEGRATION,
         "content_extraction": {
             "engine": request.app.state.config.CONTENT_EXTRACTION_ENGINE,
@@ -372,8 +387,12 @@ async def get_rag_config(request: Request, user=Depends(get_admin_user)):
             "proxy_url": request.app.state.config.YOUTUBE_LOADER_PROXY_URL,
         },
         "web": {
+<<<<<<< HEAD
             "ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION": request.app.state.config.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION,
             "RAG_WEB_SEARCH_FULL_CONTEXT": request.app.state.config.RAG_WEB_SEARCH_FULL_CONTEXT,
+=======
+            "web_loader_ssl_verification": request.app.state.config.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION,
+>>>>>>> dfef03c8e (同步远程)
             "search": {
                 "enabled": request.app.state.config.ENABLE_RAG_WEB_SEARCH,
                 "drive": request.app.state.config.ENABLE_GOOGLE_DRIVE_INTEGRATION,
@@ -384,13 +403,17 @@ async def get_rag_config(request: Request, user=Depends(get_admin_user)):
                 "brave_search_api_key": request.app.state.config.BRAVE_SEARCH_API_KEY,
                 "kagi_search_api_key": request.app.state.config.KAGI_SEARCH_API_KEY,
                 "mojeek_search_api_key": request.app.state.config.MOJEEK_SEARCH_API_KEY,
+<<<<<<< HEAD
                 "bocha_search_api_key": request.app.state.config.BOCHA_SEARCH_API_KEY,
+=======
+>>>>>>> dfef03c8e (同步远程)
                 "serpstack_api_key": request.app.state.config.SERPSTACK_API_KEY,
                 "serpstack_https": request.app.state.config.SERPSTACK_HTTPS,
                 "serper_api_key": request.app.state.config.SERPER_API_KEY,
                 "serply_api_key": request.app.state.config.SERPLY_API_KEY,
                 "tavily_api_key": request.app.state.config.TAVILY_API_KEY,
                 "searchapi_api_key": request.app.state.config.SEARCHAPI_API_KEY,
+<<<<<<< HEAD
                 "searchapi_engine": request.app.state.config.SEARCHAPI_ENGINE,
                 "serpapi_api_key": request.app.state.config.SERPAPI_API_KEY,
                 "serpapi_engine": request.app.state.config.SERPAPI_ENGINE,
@@ -401,6 +424,14 @@ async def get_rag_config(request: Request, user=Depends(get_admin_user)):
                 "result_count": request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
                 "concurrent_requests": request.app.state.config.RAG_WEB_SEARCH_CONCURRENT_REQUESTS,
                 "domain_filter_list": request.app.state.config.RAG_WEB_SEARCH_DOMAIN_FILTER_LIST,
+=======
+                "seaarchapi_engine": request.app.state.config.SEARCHAPI_ENGINE,
+                "jina_api_key": request.app.state.config.JINA_API_KEY,
+                "bing_search_v7_endpoint": request.app.state.config.BING_SEARCH_V7_ENDPOINT,
+                "bing_search_v7_subscription_key": request.app.state.config.BING_SEARCH_V7_SUBSCRIPTION_KEY,
+                "result_count": request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
+                "concurrent_requests": request.app.state.config.RAG_WEB_SEARCH_CONCURRENT_REQUESTS,
+>>>>>>> dfef03c8e (同步远程)
             },
         },
     }
@@ -437,7 +468,10 @@ class WebSearchConfig(BaseModel):
     brave_search_api_key: Optional[str] = None
     kagi_search_api_key: Optional[str] = None
     mojeek_search_api_key: Optional[str] = None
+<<<<<<< HEAD
     bocha_search_api_key: Optional[str] = None
+=======
+>>>>>>> dfef03c8e (同步远程)
     serpstack_api_key: Optional[str] = None
     serpstack_https: Optional[bool] = None
     serper_api_key: Optional[str] = None
@@ -445,6 +479,7 @@ class WebSearchConfig(BaseModel):
     tavily_api_key: Optional[str] = None
     searchapi_api_key: Optional[str] = None
     searchapi_engine: Optional[str] = None
+<<<<<<< HEAD
     serpapi_api_key: Optional[str] = None
     serpapi_engine: Optional[str] = None
     jina_api_key: Optional[str] = None
@@ -455,16 +490,30 @@ class WebSearchConfig(BaseModel):
     concurrent_requests: Optional[int] = None
     trust_env: Optional[bool] = None
     domain_filter_list: Optional[List[str]] = []
+=======
+    jina_api_key: Optional[str] = None
+    bing_search_v7_endpoint: Optional[str] = None
+    bing_search_v7_subscription_key: Optional[str] = None
+    result_count: Optional[int] = None
+    concurrent_requests: Optional[int] = None
+>>>>>>> dfef03c8e (同步远程)
 
 
 class WebConfig(BaseModel):
     search: WebSearchConfig
+<<<<<<< HEAD
     ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION: Optional[bool] = None
     RAG_WEB_SEARCH_FULL_CONTEXT: Optional[bool] = None
 
 
 class ConfigUpdateForm(BaseModel):
     RAG_FULL_CONTEXT: Optional[bool] = None
+=======
+    web_loader_ssl_verification: Optional[bool] = None
+
+
+class ConfigUpdateForm(BaseModel):
+>>>>>>> dfef03c8e (同步远程)
     pdf_extract_images: Optional[bool] = None
     enable_google_drive_integration: Optional[bool] = None
     file: Optional[FileConfig] = None
@@ -484,12 +533,15 @@ async def update_rag_config(
         else request.app.state.config.PDF_EXTRACT_IMAGES
     )
 
+<<<<<<< HEAD
     request.app.state.config.RAG_FULL_CONTEXT = (
         form_data.RAG_FULL_CONTEXT
         if form_data.RAG_FULL_CONTEXT is not None
         else request.app.state.config.RAG_FULL_CONTEXT
     )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     request.app.state.config.ENABLE_GOOGLE_DRIVE_INTEGRATION = (
         form_data.enable_google_drive_integration
         if form_data.enable_google_drive_integration is not None
@@ -522,16 +574,23 @@ async def update_rag_config(
     if form_data.web is not None:
         request.app.state.config.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION = (
             # Note: When UI "Bypass SSL verification for Websites"=True then ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION=False
+<<<<<<< HEAD
             form_data.web.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION
+=======
+            form_data.web.web_loader_ssl_verification
+>>>>>>> dfef03c8e (同步远程)
         )
 
         request.app.state.config.ENABLE_RAG_WEB_SEARCH = form_data.web.search.enabled
         request.app.state.config.RAG_WEB_SEARCH_ENGINE = form_data.web.search.engine
+<<<<<<< HEAD
 
         request.app.state.config.RAG_WEB_SEARCH_FULL_CONTEXT = (
             form_data.web.RAG_WEB_SEARCH_FULL_CONTEXT
         )
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         request.app.state.config.SEARXNG_QUERY_URL = (
             form_data.web.search.searxng_query_url
         )
@@ -550,9 +609,12 @@ async def update_rag_config(
         request.app.state.config.MOJEEK_SEARCH_API_KEY = (
             form_data.web.search.mojeek_search_api_key
         )
+<<<<<<< HEAD
         request.app.state.config.BOCHA_SEARCH_API_KEY = (
             form_data.web.search.bocha_search_api_key
         )
+=======
+>>>>>>> dfef03c8e (同步远程)
         request.app.state.config.SERPSTACK_API_KEY = (
             form_data.web.search.serpstack_api_key
         )
@@ -567,9 +629,12 @@ async def update_rag_config(
             form_data.web.search.searchapi_engine
         )
 
+<<<<<<< HEAD
         request.app.state.config.SERPAPI_API_KEY = form_data.web.search.serpapi_api_key
         request.app.state.config.SERPAPI_ENGINE = form_data.web.search.serpapi_engine
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         request.app.state.config.JINA_API_KEY = form_data.web.search.jina_api_key
         request.app.state.config.BING_SEARCH_V7_ENDPOINT = (
             form_data.web.search.bing_search_v7_endpoint
@@ -578,25 +643,34 @@ async def update_rag_config(
             form_data.web.search.bing_search_v7_subscription_key
         )
 
+<<<<<<< HEAD
         request.app.state.config.EXA_API_KEY = form_data.web.search.exa_api_key
 
+=======
+>>>>>>> dfef03c8e (同步远程)
         request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT = (
             form_data.web.search.result_count
         )
         request.app.state.config.RAG_WEB_SEARCH_CONCURRENT_REQUESTS = (
             form_data.web.search.concurrent_requests
         )
+<<<<<<< HEAD
         request.app.state.config.RAG_WEB_SEARCH_TRUST_ENV = (
             form_data.web.search.trust_env
         )
         request.app.state.config.RAG_WEB_SEARCH_DOMAIN_FILTER_LIST = (
             form_data.web.search.domain_filter_list
         )
+=======
+>>>>>>> dfef03c8e (同步远程)
 
     return {
         "status": True,
         "pdf_extract_images": request.app.state.config.PDF_EXTRACT_IMAGES,
+<<<<<<< HEAD
         "RAG_FULL_CONTEXT": request.app.state.config.RAG_FULL_CONTEXT,
+=======
+>>>>>>> dfef03c8e (同步远程)
         "file": {
             "max_size": request.app.state.config.FILE_MAX_SIZE,
             "max_count": request.app.state.config.FILE_MAX_COUNT,
@@ -616,8 +690,12 @@ async def update_rag_config(
             "translation": request.app.state.YOUTUBE_LOADER_TRANSLATION,
         },
         "web": {
+<<<<<<< HEAD
             "ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION": request.app.state.config.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION,
             "RAG_WEB_SEARCH_FULL_CONTEXT": request.app.state.config.RAG_WEB_SEARCH_FULL_CONTEXT,
+=======
+            "web_loader_ssl_verification": request.app.state.config.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION,
+>>>>>>> dfef03c8e (同步远程)
             "search": {
                 "enabled": request.app.state.config.ENABLE_RAG_WEB_SEARCH,
                 "engine": request.app.state.config.RAG_WEB_SEARCH_ENGINE,
@@ -627,24 +705,35 @@ async def update_rag_config(
                 "brave_search_api_key": request.app.state.config.BRAVE_SEARCH_API_KEY,
                 "kagi_search_api_key": request.app.state.config.KAGI_SEARCH_API_KEY,
                 "mojeek_search_api_key": request.app.state.config.MOJEEK_SEARCH_API_KEY,
+<<<<<<< HEAD
                 "bocha_search_api_key": request.app.state.config.BOCHA_SEARCH_API_KEY,
+=======
+>>>>>>> dfef03c8e (同步远程)
                 "serpstack_api_key": request.app.state.config.SERPSTACK_API_KEY,
                 "serpstack_https": request.app.state.config.SERPSTACK_HTTPS,
                 "serper_api_key": request.app.state.config.SERPER_API_KEY,
                 "serply_api_key": request.app.state.config.SERPLY_API_KEY,
                 "serachapi_api_key": request.app.state.config.SEARCHAPI_API_KEY,
                 "searchapi_engine": request.app.state.config.SEARCHAPI_ENGINE,
+<<<<<<< HEAD
                 "serpapi_api_key": request.app.state.config.SERPAPI_API_KEY,
                 "serpapi_engine": request.app.state.config.SERPAPI_ENGINE,
+=======
+>>>>>>> dfef03c8e (同步远程)
                 "tavily_api_key": request.app.state.config.TAVILY_API_KEY,
                 "jina_api_key": request.app.state.config.JINA_API_KEY,
                 "bing_search_v7_endpoint": request.app.state.config.BING_SEARCH_V7_ENDPOINT,
                 "bing_search_v7_subscription_key": request.app.state.config.BING_SEARCH_V7_SUBSCRIPTION_KEY,
+<<<<<<< HEAD
                 "exa_api_key": request.app.state.config.EXA_API_KEY,
                 "result_count": request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
                 "concurrent_requests": request.app.state.config.RAG_WEB_SEARCH_CONCURRENT_REQUESTS,
                 "trust_env": request.app.state.config.RAG_WEB_SEARCH_TRUST_ENV,
                 "domain_filter_list": request.app.state.config.RAG_WEB_SEARCH_DOMAIN_FILTER_LIST,
+=======
+                "result_count": request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
+                "concurrent_requests": request.app.state.config.RAG_WEB_SEARCH_CONCURRENT_REQUESTS,
+>>>>>>> dfef03c8e (同步远程)
             },
         },
     }
@@ -712,7 +801,10 @@ def save_docs_to_vector_db(
     overwrite: bool = False,
     split: bool = True,
     add: bool = False,
+<<<<<<< HEAD
     user=None,
+=======
+>>>>>>> dfef03c8e (同步远程)
 ) -> bool:
     def _get_docs_info(docs: list[Document]) -> str:
         docs_info = set()
@@ -793,11 +885,15 @@ def save_docs_to_vector_db(
     # for meta-data so convert them to string.
     for metadata in metadatas:
         for key, value in metadata.items():
+<<<<<<< HEAD
             if (
                 isinstance(value, datetime)
                 or isinstance(value, list)
                 or isinstance(value, dict)
             ):
+=======
+            if isinstance(value, datetime):
+>>>>>>> dfef03c8e (同步远程)
                 metadata[key] = str(value)
 
     try:
@@ -832,7 +928,11 @@ def save_docs_to_vector_db(
         )
 
         embeddings = embedding_function(
+<<<<<<< HEAD
             list(map(lambda x: x.replace("\n", " "), texts)), user=user
+=======
+            list(map(lambda x: x.replace("\n", " "), texts))
+>>>>>>> dfef03c8e (同步远程)
         )
 
         items = [
@@ -990,7 +1090,10 @@ def process_file(
                     "hash": hash,
                 },
                 add=(True if form_data.collection_name else False),
+<<<<<<< HEAD
                 user=user,
+=======
+>>>>>>> dfef03c8e (同步远程)
             )
 
             if result:
@@ -1048,7 +1151,11 @@ def process_text(
     text_content = form_data.content
     log.debug(f"text_content: {text_content}")
 
+<<<<<<< HEAD
     result = save_docs_to_vector_db(request, docs, collection_name, user=user)
+=======
+    result = save_docs_to_vector_db(request, docs, collection_name)
+>>>>>>> dfef03c8e (同步远程)
     if result:
         return {
             "status": True,
@@ -1081,9 +1188,13 @@ def process_youtube_video(
         content = " ".join([doc.page_content for doc in docs])
         log.debug(f"text_content: {content}")
 
+<<<<<<< HEAD
         save_docs_to_vector_db(
             request, docs, collection_name, overwrite=True, user=user
         )
+=======
+        save_docs_to_vector_db(request, docs, collection_name, overwrite=True)
+>>>>>>> dfef03c8e (同步远程)
 
         return {
             "status": True,
@@ -1124,9 +1235,13 @@ def process_web(
         content = " ".join([doc.page_content for doc in docs])
 
         log.debug(f"text_content: {content}")
+<<<<<<< HEAD
         save_docs_to_vector_db(
             request, docs, collection_name, overwrite=True, user=user
         )
+=======
+        save_docs_to_vector_db(request, docs, collection_name, overwrite=True)
+>>>>>>> dfef03c8e (同步远程)
 
         return {
             "status": True,
@@ -1157,14 +1272,21 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
     - BRAVE_SEARCH_API_KEY
     - KAGI_SEARCH_API_KEY
     - MOJEEK_SEARCH_API_KEY
+<<<<<<< HEAD
     - BOCHA_SEARCH_API_KEY
+=======
+>>>>>>> dfef03c8e (同步远程)
     - SERPSTACK_API_KEY
     - SERPER_API_KEY
     - SERPLY_API_KEY
     - TAVILY_API_KEY
+<<<<<<< HEAD
     - EXA_API_KEY
     - SEARCHAPI_API_KEY + SEARCHAPI_ENGINE (by default `google`)
     - SERPAPI_API_KEY + SERPAPI_ENGINE (by default `google`)
+=======
+    - SEARCHAPI_API_KEY + SEARCHAPI_ENGINE (by default `google`)
+>>>>>>> dfef03c8e (同步远程)
     Args:
         query (str): The query to search for
     """
@@ -1226,6 +1348,7 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
             )
         else:
             raise Exception("No MOJEEK_SEARCH_API_KEY found in environment variables")
+<<<<<<< HEAD
     elif engine == "bocha":
         if request.app.state.config.BOCHA_SEARCH_API_KEY:
             return search_bocha(
@@ -1236,6 +1359,8 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
             )
         else:
             raise Exception("No BOCHA_SEARCH_API_KEY found in environment variables")
+=======
+>>>>>>> dfef03c8e (同步远程)
     elif engine == "serpstack":
         if request.app.state.config.SERPSTACK_API_KEY:
             return search_serpstack(
@@ -1279,7 +1404,10 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
                 request.app.state.config.TAVILY_API_KEY,
                 query,
                 request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
+<<<<<<< HEAD
                 request.app.state.config.RAG_WEB_SEARCH_DOMAIN_FILTER_LIST,
+=======
+>>>>>>> dfef03c8e (同步远程)
             )
         else:
             raise Exception("No TAVILY_API_KEY found in environment variables")
@@ -1294,6 +1422,7 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
             )
         else:
             raise Exception("No SEARCHAPI_API_KEY found in environment variables")
+<<<<<<< HEAD
     elif engine == "serpapi":
         if request.app.state.config.SERPAPI_API_KEY:
             return search_serpapi(
@@ -1305,6 +1434,8 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
             )
         else:
             raise Exception("No SERPAPI_API_KEY found in environment variables")
+=======
+>>>>>>> dfef03c8e (同步远程)
     elif engine == "jina":
         return search_jina(
             request.app.state.config.JINA_API_KEY,
@@ -1320,6 +1451,7 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
             request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
             request.app.state.config.RAG_WEB_SEARCH_DOMAIN_FILTER_LIST,
         )
+<<<<<<< HEAD
     elif engine == "exa":
         return search_exa(
             request.app.state.config.EXA_API_KEY,
@@ -1327,12 +1459,18 @@ def search_web(request: Request, engine: str, query: str) -> list[SearchResult]:
             request.app.state.config.RAG_WEB_SEARCH_RESULT_COUNT,
             request.app.state.config.RAG_WEB_SEARCH_DOMAIN_FILTER_LIST,
         )
+=======
+>>>>>>> dfef03c8e (同步远程)
     else:
         raise Exception("No search engine API key found in environment variables")
 
 
 @router.post("/process/web/search")
+<<<<<<< HEAD
 async def process_web_search(
+=======
+def process_web_search(
+>>>>>>> dfef03c8e (同步远程)
     request: Request, form_data: SearchForm, user=Depends(get_verified_user)
 ):
     try:
@@ -1364,6 +1502,7 @@ async def process_web_search(
             urls,
             verify_ssl=request.app.state.config.ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION,
             requests_per_second=request.app.state.config.RAG_WEB_SEARCH_CONCURRENT_REQUESTS,
+<<<<<<< HEAD
             trust_env=request.app.state.config.RAG_WEB_SEARCH_TRUST_ENV,
         )
         docs = await loader.aload()
@@ -1397,6 +1536,17 @@ async def process_web_search(
                 "filenames": urls,
                 "loaded_count": len(docs),
             }
+=======
+        )
+        docs = loader.load()
+        save_docs_to_vector_db(request, docs, collection_name, overwrite=True)
+
+        return {
+            "status": True,
+            "collection_name": collection_name,
+            "filenames": urls,
+        }
+>>>>>>> dfef03c8e (同步远程)
     except Exception as e:
         log.exception(e)
         raise HTTPException(
@@ -1424,9 +1574,13 @@ def query_doc_handler(
             return query_doc_with_hybrid_search(
                 collection_name=form_data.collection_name,
                 query=form_data.query,
+<<<<<<< HEAD
                 embedding_function=lambda query: request.app.state.EMBEDDING_FUNCTION(
                     query, user=user
                 ),
+=======
+                embedding_function=request.app.state.EMBEDDING_FUNCTION,
+>>>>>>> dfef03c8e (同步远程)
                 k=form_data.k if form_data.k else request.app.state.config.TOP_K,
                 reranking_function=request.app.state.rf,
                 r=(
@@ -1434,16 +1588,24 @@ def query_doc_handler(
                     if form_data.r
                     else request.app.state.config.RELEVANCE_THRESHOLD
                 ),
+<<<<<<< HEAD
                 user=user,
+=======
+>>>>>>> dfef03c8e (同步远程)
             )
         else:
             return query_doc(
                 collection_name=form_data.collection_name,
+<<<<<<< HEAD
                 query_embedding=request.app.state.EMBEDDING_FUNCTION(
                     form_data.query, user=user
                 ),
                 k=form_data.k if form_data.k else request.app.state.config.TOP_K,
                 user=user,
+=======
+                query_embedding=request.app.state.EMBEDDING_FUNCTION(form_data.query),
+                k=form_data.k if form_data.k else request.app.state.config.TOP_K,
+>>>>>>> dfef03c8e (同步远程)
             )
     except Exception as e:
         log.exception(e)
@@ -1472,9 +1634,13 @@ def query_collection_handler(
             return query_collection_with_hybrid_search(
                 collection_names=form_data.collection_names,
                 queries=[form_data.query],
+<<<<<<< HEAD
                 embedding_function=lambda query: request.app.state.EMBEDDING_FUNCTION(
                     query, user=user
                 ),
+=======
+                embedding_function=request.app.state.EMBEDDING_FUNCTION,
+>>>>>>> dfef03c8e (同步远程)
                 k=form_data.k if form_data.k else request.app.state.config.TOP_K,
                 reranking_function=request.app.state.rf,
                 r=(
@@ -1487,9 +1653,13 @@ def query_collection_handler(
             return query_collection(
                 collection_names=form_data.collection_names,
                 queries=[form_data.query],
+<<<<<<< HEAD
                 embedding_function=lambda query: request.app.state.EMBEDDING_FUNCTION(
                     query, user=user
                 ),
+=======
+                embedding_function=request.app.state.EMBEDDING_FUNCTION,
+>>>>>>> dfef03c8e (同步远程)
                 k=form_data.k if form_data.k else request.app.state.config.TOP_K,
             )
 
@@ -1586,7 +1756,10 @@ class BatchProcessFilesResponse(BaseModel):
 
 @router.post("/process/files/batch")
 def process_files_batch(
+<<<<<<< HEAD
     request: Request,
+=======
+>>>>>>> dfef03c8e (同步远程)
     form_data: BatchProcessFilesForm,
     user=Depends(get_verified_user),
 ) -> BatchProcessFilesResponse:
@@ -1633,11 +1806,15 @@ def process_files_batch(
     if all_docs:
         try:
             save_docs_to_vector_db(
+<<<<<<< HEAD
                 request=request,
                 docs=all_docs,
                 collection_name=collection_name,
                 add=True,
                 user=user,
+=======
+                docs=all_docs, collection_name=collection_name, add=True
+>>>>>>> dfef03c8e (同步远程)
             )
 
             # Update all files with collection name

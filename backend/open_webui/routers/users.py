@@ -62,6 +62,7 @@ async def get_user_permissisions(user=Depends(get_verified_user)):
 # User Default Permissions
 ############################
 class WorkspacePermissions(BaseModel):
+<<<<<<< HEAD
     models: bool = False
     knowledge: bool = False
     prompts: bool = False
@@ -80,11 +81,25 @@ class FeaturesPermissions(BaseModel):
     web_search: bool = True
     image_generation: bool = True
     code_interpreter: bool = True
+=======
+    models: bool
+    knowledge: bool
+    prompts: bool
+    tools: bool
+
+
+class ChatPermissions(BaseModel):
+    file_upload: bool
+    delete: bool
+    edit: bool
+    temporary: bool
+>>>>>>> dfef03c8e (同步远程)
 
 
 class UserPermissions(BaseModel):
     workspace: WorkspacePermissions
     chat: ChatPermissions
+<<<<<<< HEAD
     features: FeaturesPermissions
 
 
@@ -101,6 +116,13 @@ async def get_user_permissions(request: Request, user=Depends(get_admin_user)):
             **request.app.state.config.USER_PERMISSIONS.get("features", {})
         ),
     }
+=======
+
+
+@router.get("/default/permissions")
+async def get_user_permissions(request: Request, user=Depends(get_admin_user)):
+    return request.app.state.config.USER_PERMISSIONS
+>>>>>>> dfef03c8e (同步远程)
 
 
 @router.post("/default/permissions")
@@ -153,7 +175,11 @@ async def get_user_settings_by_session_user(user=Depends(get_verified_user)):
 async def update_user_settings_by_session_user(
     form_data: UserSettings, user=Depends(get_verified_user)
 ):
+<<<<<<< HEAD
     user = Users.update_user_settings_by_id(user.id, form_data.model_dump())
+=======
+    user = Users.update_user_by_id(user.id, {"settings": form_data.model_dump()})
+>>>>>>> dfef03c8e (同步远程)
     if user:
         return user.settings
     else:

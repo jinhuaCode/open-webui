@@ -113,6 +113,7 @@ class OpenSearchClient:
 
         return self._result_to_search_result(result)
 
+<<<<<<< HEAD
     def query(
         self, collection_name: str, filter: dict, limit: Optional[int] = None
     ) -> Optional[GetResult]:
@@ -141,6 +142,8 @@ class OpenSearchClient:
         except Exception as e:
             return None
 
+=======
+>>>>>>> dfef03c8e (同步远程)
     def get_or_create_index(self, index_name: str, dimension: int):
         if not self.has_index(index_name):
             self._create_index(index_name, dimension)
